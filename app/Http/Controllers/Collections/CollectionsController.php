@@ -16,7 +16,13 @@ class CollectionsController extends Controller
 
   public function getCollection($collectionName)
   {
-    $products = (new CollectionsServices)->getCollection($collectionName);
+    $collection = (new CollectionsServices)->getCollection($collectionName);
+    return $this->renderResponse($collection);
+  }
+
+  public function getAllProducts()
+  {
+    $products = (new CollectionsServices)->getProductsCollectionItems();
     return $this->renderResponse($products);
   }
 

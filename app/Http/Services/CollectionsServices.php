@@ -22,23 +22,33 @@ use stdClass;
     public function getCollections()
     {
       $collectionsResponse = Http::withHeaders($this->headers)->get(''.$this->endpointUrl);
-      return $collectionsResponse;
+      return $collectionsResponse['data'];
     }
 
-    // get Collection By Name because all collections should not be visible for the customer
+    // get Collection By Name because all collections have different functionalities
+    // eg: Customers cannot create products but they can view them/ or they can create orders but cannot view them
+     
     public function getCollection($collectionName)
     {
       $collection = new stdClass();
       $allCollections = $this->getCollections();
-      foreach ($allCollections['data'] as $col) {
+      foreach ($allCollections as $col) {
         if ($col['name'] == $collectionName) {
           $collection = $col;
         }
       }
       $collectionId = $collection['_ycode_id'];
       $collectionResponse = Http::withHeaders($this->headers)->get(''.$this->endpointUrl.'/'.$collectionId);
-      return $collectionResponse;
+      return $collectionResponse['data'];
     }
 
+    public function getProductsCollectionItems()
+    {
+      $productsCollectionName = "Products";
+      $productsCollection = $this->getCollection($productsCollectionName);
+      $collectionId = $productsCollection['_ycode_id'];
+      $allProducts = Http::withHeaders($this->headers)->get(''.$this->endpointUrl.'/'.$collectionId. '/items');
+      return $allProducts['data'];
+    }
   }
 ?>
