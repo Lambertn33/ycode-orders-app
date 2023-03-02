@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Collections\CollectionsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('collections')->group(function() {
+  Route::controller(CollectionsController::class)->group(function() {
+    Route::get('/', 'getAllCollections');
+    Route::get('/products/list', 'getAllProducts');
+    Route::get('/{collectionName}', 'getCollection');
+  });
 });
