@@ -2,4 +2,4 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [\App\Http\Controllers\CheckoutController::class, 'index']);
+Route::get('/{any}', [\App\Http\Controllers\CheckoutController::class, 'index'])->where('any', '.*');

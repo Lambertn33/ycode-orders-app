@@ -1,6 +1,9 @@
 <template>
   <div class="main">
     <the-navbar />
+    <div class="pt-8">
+      <router-view />
+    </div>
   </div>
 </template>
 

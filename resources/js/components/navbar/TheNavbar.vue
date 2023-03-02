@@ -7,9 +7,9 @@
       <div class="flex gap-2 text-sm lg:flex-grow">
         <div class="flex gap-2 items-center nav-item" v-for="link in navLinks" :key="link.name">
           <component :is="link.icon" class="text-white" />
-          <a href="" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white mr-4">
+          <router-link :to="link.href"  class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white mr-4">
             {{ link.name }}
-          </a>
+          </router-link>
         </div>
       </div>
     </div>
@@ -19,10 +19,9 @@
 <script>
   import ShopIcon from 'vue-material-design-icons/Shopping.vue';
   import CartIcon from 'vue-material-design-icons/Cart.vue';
-  import CheckoutIcon from 'vue-material-design-icons/CartArrowRight.vue';
 
   export default {
-    components: { ShopIcon, CartIcon, CheckoutIcon },
+    components: { ShopIcon, CartIcon },
     data() {
       return {
         navLinks: [
@@ -33,14 +32,9 @@
           },
           {
             name: 'My Cart',
-            href: "/",
+            href: "/my-cart",
             icon: 'cart-icon'
           },
-          {
-            name: 'Checkout',
-            href: "/",
-            icon: 'checkout-icon'
-          }
         ]
       }
     }
