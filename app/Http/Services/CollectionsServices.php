@@ -28,14 +28,17 @@ use stdClass;
     // get Collection By Name because all collections should not be visible for the customer
     public function getCollection($collectionName)
     {
-      $productionCollection = new stdClass();
+      $collection = new stdClass();
       $allCollections = $this->getCollections();
-      foreach ($allCollections['data'] as $collection ) {
-        if ($collection['name'] == $collectionName) {
-          $productionCollection = $collection;
+      foreach ($allCollections['data'] as $col) {
+        if ($col['name'] == $collectionName) {
+          $collection = $collection;
         }
       }
-      return $productionCollection;
+      $collectionId = $collection['_ycode_id'];
+      $collectionResponse = Http::withHeaders($this->headers)->get(''.$this->endpointUrl.'/'.$collectionId);
+      return $collectionResponse;
     }
+
   }
 ?>
