@@ -25,6 +25,7 @@ use stdClass;
       return $collectionsResponse;
     }
 
+    // get Collection By Name because all collections should not be visible for the customer
     public function getCollection($collectionName)
     {
       $productionCollection = new stdClass();

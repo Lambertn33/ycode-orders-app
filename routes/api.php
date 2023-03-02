@@ -18,6 +18,6 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('collections')->group(function() {
   Route::controller(CollectionsController::class)->group(function() {
     Route::get('/', 'getAllCollections');
-    Route::get('/{collection}', 'getCollection');
+    Route::get('/{collectionName}', 'getCollection');
   });
 });

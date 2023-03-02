@@ -8,13 +8,6 @@ use App\Http\Services\CollectionsServices;
 
 class CollectionsController extends Controller
 {
-  public $contentType;
-
-  public function __construct()
-  {
-    $this->contentType = "application/json";   
-  }
-
   public function getAllCollections()
   {
     $collections = (new CollectionsServices)->getCollections();
@@ -29,6 +22,7 @@ class CollectionsController extends Controller
 
   public function renderResponse($object)
   {
-    return response($object, 200)->header('Content-Type', $this->contentType);
+    $contentType = "application/json";
+    return response($object, 200)->header('Content-Type', $contentType);
   }
 }
