@@ -2,15 +2,15 @@ require('./bootstrap')
 
 import { createApp } from 'vue'
 
-import { createStore } from 'vuex'
-
 import router from './router'
+
+import store from './store'
 
 import TheNavbar from './components/navbar/TheNavbar.vue'
 
-import App from './components/App'
+import TheSpinner from './components/reusable/TheSpinner.vue'
 
-const store = createStore({})
+import App from './components/App'
 
 const app = createApp(App)
 
@@ -18,6 +18,8 @@ app.use(store)
 
 app.use(router)
 
-app.component('the-navbar', TheNavbar);
+app.component('the-navbar', TheNavbar)
+
+app.component('the-spinner', TheSpinner)
 
 app.mount('#app')
