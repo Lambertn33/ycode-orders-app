@@ -32,7 +32,7 @@ use stdClass;
       $allCollections = $this->getCollections();
       foreach ($allCollections['data'] as $col) {
         if ($col['name'] == $collectionName) {
-          $collection = $collection;
+          $collection = $col;
         }
       }
       $collectionId = $collection['_ycode_id'];
