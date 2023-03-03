@@ -1,7 +1,7 @@
 <template>
   <nav class="flex justify-between w-full bg-indigo-600 p-6 absolute left-0 right-0 top-0">
     <div class="flex items-center flex-shrink-0 text-white mr-6">
-      <span class="font-semibold text-xl tracking-tight">Ycode App</span>
+      <span class="font-semibold text-xl tracking-tight">Ycode Shopping App</span>
     </div>
     <div class="block flex-grow lg:flex lg:items-center lg:w-auto">
       <div class="flex gap-2 text-sm lg:flex-grow">
