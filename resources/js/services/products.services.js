@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const endpointUrl = "http://localhost:8000/api/collections/products/list";
+import collectionConstants from '../constants/constants';
+
+const endpointUrl = `${collectionConstants.BASE_URL}/products/list`;
 
 class ProductsServices {
   getAllProducts() {
