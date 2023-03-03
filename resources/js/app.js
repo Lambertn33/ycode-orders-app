@@ -1,16 +1,25 @@
 require('./bootstrap')
 
 import { createApp } from 'vue'
-import { createStore } from 'vuex'
 
-import Checkout from './components/Checkout'
+import router from './router'
 
-const store = createStore({})
+import store from './store'
 
-const app = createApp({})
+import TheNavbar from './components/navbar/TheNavbar.vue'
+
+import TheSpinner from './components/reusable/TheSpinner.vue'
+
+import App from './components/App'
+
+const app = createApp(App)
 
 app.use(store)
 
-app.component('checkout', Checkout)
+app.use(router)
+
+app.component('the-navbar', TheNavbar)
+
+app.component('the-spinner', TheSpinner)
 
 app.mount('#app')

@@ -21,6 +21,9 @@
         "vue-loader": "^17.0.1"
     },
     "dependencies": {
-        "vuex": "^4.0.2"
+        "vue-material-design-icons": "^5.2.0",
+        "vue-router": "^4.1.6",
+        "vuex": "^4.0.2",
+        "vuex-persistedstate": "^4.1.0"
     }
 }
