@@ -18101,7 +18101,7 @@ var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
   "class": "flex items-center flex-shrink-0 text-white mr-6"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "font-semibold text-xl tracking-tight"
-}, "Ycode App")], -1 /* HOISTED */);
+}, "Ycode Shopping App")], -1 /* HOISTED */);
 var _hoisted_3 = {
   "class": "block flex-grow lg:flex lg:items-center lg:w-auto"
 };
