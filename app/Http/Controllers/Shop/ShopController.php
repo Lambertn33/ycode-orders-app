@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Shop;
 use App\Http\Controllers\Controller;
 use App\Http\Services\ShopServices;
 use Illuminate\Http\Request;
-use stdClass;
 
 class ShopController extends Controller
 {
@@ -22,7 +21,6 @@ class ShopController extends Controller
       $response = [];
       $response['message'] = "Product added to cart successfully";
       return $this->renderResponse($response);
-
     }
 
     public function renderResponse($object)

@@ -7,11 +7,15 @@
 
     public function getMyCart(Request $request)
     {
-      $myCart = $request->session()->get('myCartProducts');
-      if (!$myCart) {
-        $request->session()->put('myCartProducts', []); 
+      $myCartProducts = [];
+      if ($request->session()->has('myCartProducts')) {
+        $myCartProducts = $request->session()->get('myCartProducts');
+      } else {
+        $initialCart = [];
+        $request->session()->put('myCartProducts', $initialCart);
+        $myCartProducts = $initialCart;
       }
-      return $myCart;
+      return $myCartProducts;
     }
 
     public function addProductToCart($request, $product) 
