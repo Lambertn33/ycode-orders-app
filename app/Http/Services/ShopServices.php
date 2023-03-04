@@ -14,7 +14,7 @@
       return $myCart;
     }
 
-    public function addProductToCart($request, $productId, $userId) 
+    public function addProductToCart($userId, $productId) 
     {
       $newProduct = [
         'id' => Str::uuid()->toString(),
@@ -25,5 +25,10 @@
       ];
       return Cart::insert($newProduct);              
     }
+    public function removeProductFromCart($userId, $productId) 
+    {
+       return Cart::where('user_id', $userId)->where('product_id', $productId)->delete();
+    }
   }
+
 ?>

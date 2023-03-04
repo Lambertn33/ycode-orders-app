@@ -21,8 +21,24 @@ class ShopController extends Controller
       try {
         DB::beginTransaction();
         $productId = $request->productId;
-        (new ShopServices)->addProductToCart($request, $productId, $userId); 
+        (new ShopServices)->addProductToCart($userId, $productId); 
         $response['message'] = "Product added to cart successfully";
+        DB::commit();
+        return $this->renderResponse($response, 200);
+      } catch (\Throwable $th) {
+        DB::rollBack();
+        $response['message'] = "an error occured...please try again";
+        return $this->renderResponse($response, 500);
+      }
+    }
+
+    public function removeProductFromCart($userId, $productId)
+    {
+      $response = [];
+      try {
+        DB::beginTransaction();
+        (new ShopServices)->removeProductFromCart($userId, $productId);
+        $response['message'] = "Product removed from cart successfully";
         DB::commit();
         return $this->renderResponse($response, 200);
       } catch (\Throwable $th) {

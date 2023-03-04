@@ -26,6 +26,7 @@ Route::controller(ShopController::class)->prefix('shop')->group(function() {
   Route::prefix('cart/{userId}')->group(function() {
     Route::get('/', 'getMyCart');
     Route::post('/', 'addProductToCart');
+    Route::delete('/{productId}', 'removeProductFromCart');
   });
 });
 
