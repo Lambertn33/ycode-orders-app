@@ -9,19 +9,19 @@ use Illuminate\Support\Facades\DB;
 
 class ShopController extends Controller
 {
-    public function getMyCart(Request $request)
+    public function getMyCart($userId)
     {
-        $myCart = (new ShopServices)->getMyCart($request);
+        $myCart = (new ShopServices)->getMyCart($userId);
         return $this->renderResponse($myCart, 200);
     }
 
-    public function addProductToCart(Request $request) 
+    public function addProductToCart(Request $request, $userId) 
     {
       $response = [];
       try {
         DB::beginTransaction();
         $productId = $request->productId;
-        (new ShopServices)->addProductToCart($request, $productId); 
+        (new ShopServices)->addProductToCart($request, $productId, $userId); 
         $response['message'] = "Product added to cart successfully";
         DB::commit();
         return $this->renderResponse($response, 200);

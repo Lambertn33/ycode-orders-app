@@ -21,15 +21,27 @@ export const shopStore = {
         }
       )
     },
-    fetchMyCartProducts({ commit }) {
-      return ShopServices.getMyCartProducts().then(
+
+    fetchMyCartProducts({ commit }, userId) {
+      return ShopServices.getMyCartProducts(userId).then(
         response => {
-          return Promise.resolve(response);
+          return Promise.resolve(response.data);
         },
         error => {
           return Promise.reject(error);
         }
       )
+    },
+
+    addProductToCart({ commit }, {userId, productId}) {
+      return ShopServices.addProductToCart(userId, productId).then(
+        response => {
+          return Promise.resolve(response.data);
+        },
+        error => {
+          return Promise.reject(error);
+        }
+      );
     }
   },
 
@@ -42,6 +54,9 @@ export const shopStore = {
   getters: {
     getNewOrderFields(state) {
       return state.newOrderFields;
+    },
+    getMyCartProducts(state) {
+      return state.myCartProducts;
     }
   }
 }

@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="px-6 py-4 flex items-center">
-      <button type="button"
+      <button v-if="!checkProductExistence" type="button" @click="$emit('addProductToCart', product.ID)"
          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none
           focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex
            items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -34,14 +34,40 @@
         </svg>
         Add to cart
       </button>
+      <button v-else  class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none
+        focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex
+        items-center mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+          Remove from cart
+      </button>
     </div>
   </div>
 </template>
 
 <script>
   export default {
+    data() {
+      return {
+        myCartProducts: [],
+      }
+    },
+    emits: ['addProductToCart'],
     props: {
-      product: Object
+      product: Object,
+    },
+    methods: {
+      async fetchMyCartProducts() {
+        const userId = this.$store.getters.getUser;
+        const myCartProducts = await this.$store.dispatch('fetchMyCartProducts', [userId]);
+        this.myCartProducts = myCartProducts;
+      },
+    },
+    computed: {
+      checkProductExistence() {
+        return this.myCartProducts.some(prod => prod.product_id == this.product.ID);
+      }
+    },
+    created() {
+      this.fetchMyCartProducts();
     }
   }
 </script>

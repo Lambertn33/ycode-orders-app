@@ -7,18 +7,19 @@
 
   Class ShopServices {
 
-    public function getMyCart()
+    public function getMyCart($userId)
     {
       // Simple Cart using DB 
-      $myCart = Cart::select(['id', 'product_id'])->get();
+      $myCart = Cart::where('user_id', $userId)->select(['id', 'product_id'])->get();
       return $myCart;
     }
 
-    public function addProductToCart($request, $productId) 
+    public function addProductToCart($request, $productId, $userId) 
     {
       $newProduct = [
         'id' => Str::uuid()->toString(),
         'product_id' => $productId,
+        'user_id' => $userId,
         'created_at' => now(),
         'updated_at' => now()
       ];

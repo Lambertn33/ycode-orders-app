@@ -8,8 +8,14 @@ class ShopServices {
   getOrdersFields() {
     return axios.get(`${endpointUrl}/collections/Orders`);
   }
-  getMyCartProducts() {
-    return axios.create({ withCredentials: true }).get(`${endpointUrl}/shop/cart`, );
+  getMyCartProducts(userId) {
+    return axios.get(`${endpointUrl}/shop/cart/${userId}`);
+  }
+  addProductToCart(userId, productId) {
+    const newProductInCart = {
+      productId
+    }
+    return axios.post(`${endpointUrl}/shop/cart/${userId}`, newProductInCart);
   }
 }
 
