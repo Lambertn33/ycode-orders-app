@@ -18101,14 +18101,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       isFetching: false,
-      newOrderFields: []
+      newOrderFields: [],
+      myCartProducts: []
     };
   },
   methods: {
     fetchNewOrderFields: function fetchNewOrderFields() {
       var _this = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var data, _yield$data, fetchedFields, filteredFields, _iterator, _step, field;
+        var fields, myCartProducts, _yield$fields, fetchedFields, filteredFields, _iterator, _step, field;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
@@ -18117,26 +18118,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 break;
               }
               _this.newOrderFields = _this.getNewOrderFields;
-              _context.next = 18;
+              _context.next = 21;
               break;
             case 4:
               _this.isFetching = true;
+              // fetch new order fields
               _context.next = 7;
               return _this.$store.dispatch('fetchNewOrderFields');
             case 7:
-              data = _context.sent;
+              fields = _context.sent;
               _context.next = 10;
-              return data;
+              return _this.$store.dispatch('fetchMyCartProducts');
             case 10:
-              _yield$data = _context.sent;
-              fetchedFields = _yield$data.fields;
+              myCartProducts = _context.sent;
+              console.log('mycart', myCartProducts);
+              _context.next = 14;
+              return fields;
+            case 14:
+              _yield$fields = _context.sent;
+              fetchedFields = _yield$fields.fields;
               // avoid rendering inputs with reference types
               filteredFields = fetchedFields.filter(function (field) {
                 return field.type != "reference";
-              });
-              console.log(filteredFields);
-
-              // some fields have type of phone instead of tel and datetime instead of datetime-local
+              }); // some fields have type of phone instead of tel and datetime instead of datetime-local
               // we manually fix this
               _iterator = _createForOfIteratorHelper(filteredFields);
               try {
@@ -18152,7 +18156,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               }
               _this.newOrderFields = filteredFields;
               _this.isFetching = false;
-            case 18:
+            case 21:
             case "end":
               return _context.stop();
           }
@@ -18680,8 +18684,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  BASE_URL: "http://localhost:8000/api/collections",
-  ORDERS: "Orders"
+  BASE_URL: "http://localhost:8000/api"
 });
 
 /***/ }),
@@ -18718,44 +18721,6 @@ var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_2__.createRouter)({
 
 /***/ }),
 
-/***/ "./resources/js/services/orders.services.js":
-/*!**************************************************!*\
-  !*** ./resources/js/services/orders.services.js ***!
-  \**************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
-/* harmony import */ var _constants_constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants/constants */ "./resources/js/constants/constants.js");
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-
-
-var endpointUrl = "".concat(_constants_constants__WEBPACK_IMPORTED_MODULE_0__["default"].BASE_URL, "/").concat(_constants_constants__WEBPACK_IMPORTED_MODULE_0__["default"].ORDERS);
-var OrdersServices = /*#__PURE__*/function () {
-  function OrdersServices() {
-    _classCallCheck(this, OrdersServices);
-  }
-  _createClass(OrdersServices, [{
-    key: "getOrdersFields",
-    value: function getOrdersFields() {
-      return axios__WEBPACK_IMPORTED_MODULE_1__["default"].get("".concat(endpointUrl));
-    }
-  }]);
-  return OrdersServices;
-}();
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new OrdersServices());
-
-/***/ }),
-
 /***/ "./resources/js/services/products.services.js":
 /*!****************************************************!*\
   !*** ./resources/js/services/products.services.js ***!
@@ -18777,7 +18742,7 @@ function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _ty
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
 
-var endpointUrl = "".concat(_constants_constants__WEBPACK_IMPORTED_MODULE_0__["default"].BASE_URL, "/products/list");
+var endpointUrl = "".concat(_constants_constants__WEBPACK_IMPORTED_MODULE_0__["default"].BASE_URL, "/collections/products/list");
 var ProductsServices = /*#__PURE__*/function () {
   function ProductsServices() {
     _classCallCheck(this, ProductsServices);
@@ -18791,6 +18756,51 @@ var ProductsServices = /*#__PURE__*/function () {
   return ProductsServices;
 }();
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new ProductsServices());
+
+/***/ }),
+
+/***/ "./resources/js/services/shop.services.js":
+/*!************************************************!*\
+  !*** ./resources/js/services/shop.services.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var _constants_constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants/constants */ "./resources/js/constants/constants.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+
+var endpointUrl = "".concat(_constants_constants__WEBPACK_IMPORTED_MODULE_0__["default"].BASE_URL);
+var ShopServices = /*#__PURE__*/function () {
+  function ShopServices() {
+    _classCallCheck(this, ShopServices);
+  }
+  _createClass(ShopServices, [{
+    key: "getOrdersFields",
+    value: function getOrdersFields() {
+      return axios__WEBPACK_IMPORTED_MODULE_1__["default"].get("".concat(endpointUrl, "/collections/Orders"));
+    }
+  }, {
+    key: "getMyCartProducts",
+    value: function getMyCartProducts() {
+      return axios__WEBPACK_IMPORTED_MODULE_1__["default"].create({
+        withCredentials: true
+      }).get("".concat(endpointUrl, "/shop/cart"));
+    }
+  }]);
+  return ShopServices;
+}();
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new ShopServices());
 
 /***/ }),
 
@@ -18878,20 +18888,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "shopStore": () => (/* binding */ shopStore)
 /* harmony export */ });
-/* harmony import */ var _services_orders_services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/orders.services */ "./resources/js/services/orders.services.js");
+/* harmony import */ var _services_shop_services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/shop.services */ "./resources/js/services/shop.services.js");
 
 var initialState = {
-  newOrderFields: []
+  newOrderFields: [],
+  myCartProducts: []
 };
 var shopStore = {
   state: initialState,
   actions: {
     fetchNewOrderFields: function fetchNewOrderFields(_ref) {
       var commit = _ref.commit;
-      return _services_orders_services__WEBPACK_IMPORTED_MODULE_0__["default"].getOrdersFields().then(function (response) {
+      return _services_shop_services__WEBPACK_IMPORTED_MODULE_0__["default"].getOrdersFields().then(function (response) {
         var fields = response.data.fields;
         commit('setNewOrderFields', fields);
         return Promise.resolve(response.data);
+      }, function (error) {
+        return Promise.reject(error);
+      });
+    },
+    fetchMyCartProducts: function fetchMyCartProducts(_ref2) {
+      var commit = _ref2.commit;
+      return _services_shop_services__WEBPACK_IMPORTED_MODULE_0__["default"].getMyCartProducts().then(function (response) {
+        return Promise.resolve(response);
       }, function (error) {
         return Promise.reject(error);
       });

@@ -21,7 +21,8 @@
     data() {
       return {
         isFetching: false,
-        newOrderFields: []
+        newOrderFields: [],
+        myCartProducts: [],
       }
     },
     methods: {
@@ -30,14 +31,18 @@
           this.newOrderFields = this.getNewOrderFields;          
         } else {
           this.isFetching = true;
-          const data = await this.$store.dispatch('fetchNewOrderFields');
-          const { fields: fetchedFields } = await data;
+          // fetch new order fields
+          const fields = await this.$store.dispatch('fetchNewOrderFields');
+
+          // fetch my cart
+          const myCartProducts = await this.$store.dispatch('fetchMyCartProducts');
+          console.log('mycart', myCartProducts);
+          const { fields: fetchedFields } = await fields;
 
           // avoid rendering inputs with reference types
           const filteredFields = fetchedFields.filter((field) => {
             return field.type != "reference";
           });
-          console.log(filteredFields);
 
           // some fields have type of phone instead of tel and datetime instead of datetime-local
           // we manually fix this
