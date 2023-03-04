@@ -34,7 +34,7 @@
         </svg>
         Add to cart
       </button>
-      <button v-else  class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none
+      <button v-else @click="$emit('removeProductFromCart', product.ID)"  class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none
         focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex
         items-center mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
           Remove from cart
@@ -50,7 +50,7 @@
         myCartProducts: [],
       }
     },
-    emits: ['addProductToCart'],
+    emits: ['addProductToCart', 'removeProductFromCart'],
     props: {
       product: Object,
     },

@@ -42,8 +42,19 @@ export const shopStore = {
           return Promise.reject(error);
         }
       );
-    }
+    },
+    removeProductFromCart({ commit }, {userId, productId}) {
+      return ShopServices.removeProductFromCart(userId, productId).then(
+        response => {
+          return Promise.resolve(response.data);
+        },
+        error => {
+          return Promise.reject(error);
+        }
+      );
+    },
   },
+
 
   mutations: {
     setNewOrderFields(state, fields) {

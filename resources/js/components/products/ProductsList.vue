@@ -10,6 +10,7 @@
         :key="product.id"
         :product="product"
         @addProductToCart="addProductToCart"
+        @removeProductFromCart="removeProductToCart"
        />
     </div>
   </div>
@@ -26,6 +27,7 @@
         myCartProducts: [],
         isFetching: false,
         isSaving: false,
+        isDeleting: false,
       }
     },
 
@@ -44,11 +46,20 @@
       async addProductToCart(productId) {
         this.isSaving = true;
         const userId = this.$store.getters.getUser;
-        const response = await this.$store.dispatch('addProductToCart', {
+        await this.$store.dispatch('addProductToCart', {
           'userId': userId, 'productId': productId
         });
         location.reload();
         this.isSaving = false;
+      },
+      async removeProductToCart(productId) {
+        this.isDeleting = true;
+        const userId = this.$store.getters.getUser;
+        await this.$store.dispatch('removeProductFromCart', {
+          'userId': userId, 'productId': productId
+        });
+        location.reload();
+        this.isDeleting = false;
       },
     },
     computed: {

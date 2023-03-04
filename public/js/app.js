@@ -17987,7 +17987,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       myCartProducts: []
     };
   },
-  emits: ['addProductToCart'],
+  emits: ['addProductToCart', 'removeProductFromCart'],
   props: {
     product: Object
   },
@@ -18054,7 +18054,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       products: [],
       myCartProducts: [],
       isFetching: false,
-      isSaving: false
+      isSaving: false,
+      isDeleting: false
     };
   },
   methods: {
@@ -18093,7 +18094,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     addProductToCart: function addProductToCart(productId) {
       var _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var userId, response;
+        var userId;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
@@ -18105,14 +18106,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 'productId': productId
               });
             case 4:
-              response = _context2.sent;
               location.reload();
               _this2.isSaving = false;
-            case 7:
+            case 6:
             case "end":
               return _context2.stop();
           }
         }, _callee2);
+      }))();
+    },
+    removeProductToCart: function removeProductToCart(productId) {
+      var _this3 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+        var userId;
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+          while (1) switch (_context3.prev = _context3.next) {
+            case 0:
+              _this3.isDeleting = true;
+              userId = _this3.$store.getters.getUser;
+              _context3.next = 4;
+              return _this3.$store.dispatch('removeProductFromCart', {
+                'userId': userId,
+                'productId': productId
+              });
+            case 4:
+              location.reload();
+              _this3.isDeleting = false;
+            case 6:
+            case "end":
+              return _context3.stop();
+          }
+        }, _callee3);
       }))();
     }
   },
@@ -18408,10 +18432,7 @@ var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
   d: "M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74\n            11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017\n            3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
 })], -1 /* HOISTED */);
-var _hoisted_13 = {
-  key: 1,
-  "class": "text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
-};
+
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     "class": "w-full",
@@ -18424,7 +18445,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return _ctx.$emit('addProductToCart', $props.product.ID);
     }),
     "class": "text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-  }, [_hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Add to cart ")])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", _hoisted_13, " Remove from cart "))])]);
+  }, [_hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Add to cart ")])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 1,
+    onClick: _cache[1] || (_cache[1] = function ($event) {
+      return _ctx.$emit('removeProductFromCart', $props.product.ID);
+    }),
+    "class": "text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+  }, " Remove from cart "))])]);
 }
 
 /***/ }),
@@ -18462,8 +18489,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_product_item, {
       key: product.id,
       product: product,
-      onAddProductToCart: $options.addProductToCart
-    }, null, 8 /* PROPS */, ["product", "onAddProductToCart"]);
+      onAddProductToCart: $options.addProductToCart,
+      onRemoveProductFromCart: $options.removeProductToCart
+    }, null, 8 /* PROPS */, ["product", "onAddProductToCart", "onRemoveProductFromCart"]);
   }), 128 /* KEYED_FRAGMENT */))])]));
 }
 
@@ -18889,6 +18917,11 @@ var ShopServices = /*#__PURE__*/function () {
       };
       return axios__WEBPACK_IMPORTED_MODULE_1__["default"].post("".concat(endpointUrl, "/shop/cart/").concat(userId), newProductInCart);
     }
+  }, {
+    key: "removeProductFromCart",
+    value: function removeProductFromCart(userId, productId) {
+      return axios__WEBPACK_IMPORTED_MODULE_1__["default"]["delete"]("".concat(endpointUrl, "/shop/cart/").concat(userId, "/").concat(productId));
+    }
   }]);
   return ShopServices;
 }();
@@ -19015,6 +19048,16 @@ var shopStore = {
       var userId = _ref4.userId,
         productId = _ref4.productId;
       return _services_shop_services__WEBPACK_IMPORTED_MODULE_0__["default"].addProductToCart(userId, productId).then(function (response) {
+        return Promise.resolve(response.data);
+      }, function (error) {
+        return Promise.reject(error);
+      });
+    },
+    removeProductFromCart: function removeProductFromCart(_ref5, _ref6) {
+      var commit = _ref5.commit;
+      var userId = _ref6.userId,
+        productId = _ref6.productId;
+      return _services_shop_services__WEBPACK_IMPORTED_MODULE_0__["default"].removeProductFromCart(userId, productId).then(function (response) {
         return Promise.resolve(response.data);
       }, function (error) {
         return Promise.reject(error);

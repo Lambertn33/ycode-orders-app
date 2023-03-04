@@ -17,6 +17,10 @@ class ShopServices {
     }
     return axios.post(`${endpointUrl}/shop/cart/${userId}`, newProductInCart);
   }
+
+  removeProductFromCart(userId, productId) {
+    return axios.delete(`${endpointUrl}/shop/cart/${userId}/${productId}`);
+  }
 }
 
 export default new ShopServices();
