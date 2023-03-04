@@ -4,6 +4,7 @@
   </div>
   <div v-else>
     <h2 class="text-center font-semibold text-xl pb-8">Products List</h2>
+    <the-alert v-show="hasRequestFinished" :responseMessage="responseMessage"/>
     <div class="gap-4 grid grid-cols-3">
       <product-item
         v-for="product in products"
@@ -23,11 +24,14 @@
     components: { ProductItem },
     data() {
       return {
-        products: [],
-        myCartProducts: [],
-        isFetching: false,
-        isSaving: false,
+        hasRequestFinished: false,
         isDeleting: false,
+        isFetching: false,
+        isModalVisible: false,
+        isSaving: false,
+        myCartProducts: [],
+        products: [],
+        responseMessage: '',
       }
     },
 
@@ -40,26 +44,33 @@
         const myCartProducts = await this.$store.dispatch('fetchMyCartProducts', [userId]);
         this.products = fetchedProducts;
         this.myCartProducts = myCartProducts;
-        console.log(myCartProducts);
         this.isFetching = false;        
       },
       async addProductToCart(productId) {
         this.isSaving = true;
         const userId = this.$store.getters.getUser;
-        await this.$store.dispatch('addProductToCart', {
+        const response = await this.$store.dispatch('addProductToCart', {
           'userId': userId, 'productId': productId
         });
-        location.reload();
+        this.responseMessage = response.message;
         this.isSaving = false;
+        this.hasRequestFinished = true;
+        setTimeout(function(){
+          location.reload();
+        }, 2000)
       },
       async removeProductToCart(productId) {
         this.isDeleting = true;
         const userId = this.$store.getters.getUser;
-        await this.$store.dispatch('removeProductFromCart', {
+        const response = await this.$store.dispatch('removeProductFromCart', {
           'userId': userId, 'productId': productId
         });
-        location.reload();
+        this.responseMessage = response.message;
         this.isDeleting = false;
+        this.hasRequestFinished = true;
+        setTimeout(function(){
+          location.reload();
+        }, 2000)
       },
     },
     computed: {
