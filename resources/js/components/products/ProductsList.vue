@@ -11,7 +11,6 @@
         :key="product.id"
         :product="product"
         @addProductToCart="addProductToCart"
-        @removeProductFromCart="removeProductToCart"
        />
     </div>
   </div>
@@ -58,21 +57,7 @@
         this.hasRequestFinished = true;
         setTimeout(function(){
           location.reload();
-        }, 2000)
-      },
-
-      async removeProductToCart(productId) {
-        this.isDeleting = true;
-        const userId = this.$store.getters.getUser;
-        const response = await this.$store.dispatch('removeProductFromCart', {
-          'userId': userId, 'productId': productId
-        });
-        this.responseMessage = response.message;
-        this.isDeleting = false;
-        this.hasRequestFinished = true;
-        setTimeout(function(){
-          location.reload();
-        }, 2000)
+        }, 2000);
       },
     },
 
