@@ -18814,7 +18814,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var store = (0,vuex__WEBPACK_IMPORTED_MODULE_3__.createStore)({
-  plugins: [vuex_persistedstate__WEBPACK_IMPORTED_MODULE_2__["default"]],
+  plugins: [(0,vuex_persistedstate__WEBPACK_IMPORTED_MODULE_2__["default"])()],
   modules: {
     productsStore: _products_store__WEBPACK_IMPORTED_MODULE_0__.productsStore,
     shopStore: _shop_store__WEBPACK_IMPORTED_MODULE_1__.shopStore

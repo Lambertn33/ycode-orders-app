@@ -1,7 +1,7 @@
 <?php
   namespace App\Http\Services;
   use Illuminate\Support\Facades\Http;
-use stdClass;
+  use stdClass;
 
   Class CollectionsServices {
 
