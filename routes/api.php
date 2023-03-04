@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Collections\CollectionsController;
+use App\Http\Controllers\Shop\ShopController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,10 +16,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('collections')->group(function() {
-  Route::controller(CollectionsController::class)->group(function() {
-    Route::get('/', 'getAllCollections');
-    Route::get('/products/list', 'getAllProducts');
-    Route::get('/{collectionName}', 'getCollection');
+Route::controller(CollectionsController::class)->prefix('collections')->group(function() {
+  Route::get('/', 'getAllCollections');
+  Route::get('/products/list', 'getAllProducts');
+  Route::get('/{collectionName}', 'getCollection');
+});
+
+Route::controller(ShopController::class)->prefix('shop')->group(function() {
+  Route::prefix('cart/{userId}')->group(function() {
+    Route::get('/', 'getMyCart');
+    Route::post('/', 'addProductToCart');
+    Route::delete('/{productId}', 'removeProductFromCart');
   });
 });
+

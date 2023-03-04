@@ -8,7 +8,15 @@
 </template>
 
 <script>
-  export default {}
+  export default {
+    created() {
+      // generate random number to be used as user ID and to be used to identify user cart from DB      
+      if (!this.$store.getters.getUser) {
+        const randomNumber = Math.floor(Math.random() * 100) + 1;
+        this.$store.dispatch('setUser', randomNumber);
+      }
+    }
+  }
 </script>
 
 <style scoped>

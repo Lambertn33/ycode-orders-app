@@ -4,13 +4,16 @@ import { productsStore } from './products-store';
 
 import { shopStore } from './shop-store';
 
-import createPersistedState from "vuex-persistedstate"
+import { userStore } from './user-store';
+
+import createPersistedState from "vuex-persistedstate";
 
 const store = createStore({
-  plugins: [createPersistedState],
+  plugins: [createPersistedState()],
   modules: {
     productsStore,
-    shopStore
+    shopStore,
+    userStore
   }
 });
 
