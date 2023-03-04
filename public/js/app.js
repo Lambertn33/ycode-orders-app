@@ -18026,7 +18026,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     }
   },
-  created: function created() {
+  mounted: function mounted() {
     this.fetchMyCartProducts();
   }
 });
@@ -18465,20 +18465,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "w-full",
     src: $props.product.Image,
     alt: "Sunset in the mountains"
-  }, null, 8 /* PROPS */, _hoisted_2), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.product.Name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_6, " Slug: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.product.Slug), 1 /* TEXT */)]), _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.product.Price), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_10, " Color: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.product.Color), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [!$options.checkProductExistence ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, null, 8 /* PROPS */, _hoisted_2), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.product.Name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_6, " Slug: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.product.Slug), 1 /* TEXT */)]), _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.product.Price), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_10, " Color: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.product.Color), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [$options.checkProductExistence ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
-    type: "button",
     onClick: _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.$emit('addProductToCart', $props.product.ID);
-    }),
-    "class": "text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex gap-2 items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_cart_icon), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Add to cart ")])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 1,
-    onClick: _cache[1] || (_cache[1] = function ($event) {
       return _ctx.$emit('removeProductFromCart', $props.product.ID);
     }),
     "class": "text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex gap-2 items-center mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_cart_icon), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Remove from cart ")]))])]);
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_cart_icon), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Remove from cart ")])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 1,
+    type: "button",
+    onClick: _cache[1] || (_cache[1] = function ($event) {
+      return _ctx.$emit('addProductToCart', $props.product.ID);
+    }),
+    "class": "text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex gap-2 items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_cart_icon), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Add to cart ")]))])]);
 }
 
 /***/ }),

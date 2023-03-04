@@ -46,6 +46,7 @@
         this.myCartProducts = myCartProducts;
         this.isFetching = false;        
       },
+
       async addProductToCart(productId) {
         this.isSaving = true;
         const userId = this.$store.getters.getUser;
@@ -59,6 +60,7 @@
           location.reload();
         }, 2000)
       },
+
       async removeProductToCart(productId) {
         this.isDeleting = true;
         const userId = this.$store.getters.getUser;
@@ -73,6 +75,7 @@
         }, 2000)
       },
     },
+
     computed: {
       getStoreProducts() {
         return this.$store.getters.getProducts;
