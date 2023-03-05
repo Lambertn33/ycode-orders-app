@@ -1,4 +1,4 @@
-<template v-if="reRenderComponent">
+<template>
   <div v-if="isFetching" class="w-full h-full">
     <the-spinner />
   </div>
@@ -37,7 +37,6 @@
         errorMessage: '',
         newOrderFields: [],
         myCartProducts: [],
-        reRenderComponent: true,
       }
     },
 

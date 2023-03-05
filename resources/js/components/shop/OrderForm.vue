@@ -39,7 +39,12 @@
     },
     methods: {
       validateOrInvalidateForm() {
-        this.isShippingInformationFilled = !this.isShippingInformationFilled;
+        if (this.isShippingInformationFilled == false) {
+          this.isShippingInformationFilled = true;
+          this.$store.commit('setUserShippingInfo', this.orderToSubmit.userInfo);
+        } else {
+          this.isShippingInformationFilled = false;
+        }
       },
       changeValue(enteredValue, id) {
         for (const key of Object.keys(this.orderToSubmit.userInfo)) {

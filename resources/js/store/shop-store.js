@@ -2,7 +2,10 @@ import ShopServices from "../services/shop.services";
 
 let initialState = {
   newOrderFields: [],
-  myCartProducts: []
+  myCartProducts: [],
+  orderInfo: {
+    userShippingInfo: {}
+  },
 }
 
 export const shopStore = {
@@ -33,6 +36,10 @@ export const shopStore = {
       )
     },
 
+    setUserInfo({ commit }, userShippingInfo) {
+      commit('setUserShippingInfo', userShippingInfo);
+    },
+
     addProductToCart({ commit }, {userId, productId}) {
       return ShopServices.addProductToCart(userId, productId).then(
         response => {
@@ -59,6 +66,9 @@ export const shopStore = {
   mutations: {
     setNewOrderFields(state, fields) {
       state.newOrderFields = fields;
+    },
+    setUserShippingInfo(state, userShippingInfo) {
+      state.orderInfo.userShippingInfo = userShippingInfo;
     }
   },
 
@@ -68,6 +78,10 @@ export const shopStore = {
     },
     getMyCartProducts(state) {
       return state.myCartProducts;
+    },
+    getUserShippingInfo(state) {
+      return state.orderInfo.userShippingInfo;
     }
+
   }
 }

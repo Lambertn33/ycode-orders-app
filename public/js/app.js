@@ -18273,8 +18273,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       hasError: false,
       errorMessage: '',
       newOrderFields: [],
-      myCartProducts: [],
-      reRenderComponent: true
+      myCartProducts: []
     };
   },
   methods: {
@@ -18444,7 +18443,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   },
   methods: {
     validateOrInvalidateForm: function validateOrInvalidateForm() {
-      this.isShippingInformationFilled = !this.isShippingInformationFilled;
+      if (this.isShippingInformationFilled == false) {
+        this.isShippingInformationFilled = true;
+        this.$store.commit('setUserShippingInfo', this.orderToSubmit.userInfo);
+      } else {
+        this.isShippingInformationFilled = false;
+      }
     },
     changeValue: function changeValue(enteredValue, id) {
       for (var _i = 0, _Object$keys = Object.keys(this.orderToSubmit.userInfo); _i < _Object$keys.length; _i++) {
@@ -19307,7 +19311,10 @@ __webpack_require__.r(__webpack_exports__);
 
 var initialState = {
   newOrderFields: [],
-  myCartProducts: []
+  myCartProducts: [],
+  orderInfo: {
+    userShippingInfo: {}
+  }
 };
 var shopStore = {
   state: initialState,
@@ -19330,20 +19337,24 @@ var shopStore = {
         return Promise.reject(error);
       });
     },
-    addProductToCart: function addProductToCart(_ref3, _ref4) {
+    setUserInfo: function setUserInfo(_ref3, userShippingInfo) {
       var commit = _ref3.commit;
-      var userId = _ref4.userId,
-        productId = _ref4.productId;
+      commit('setUserShippingInfo', userShippingInfo);
+    },
+    addProductToCart: function addProductToCart(_ref4, _ref5) {
+      var commit = _ref4.commit;
+      var userId = _ref5.userId,
+        productId = _ref5.productId;
       return _services_shop_services__WEBPACK_IMPORTED_MODULE_0__["default"].addProductToCart(userId, productId).then(function (response) {
         return Promise.resolve(response.data);
       }, function (error) {
         return Promise.reject(error);
       });
     },
-    removeProductFromCart: function removeProductFromCart(_ref5, _ref6) {
-      var commit = _ref5.commit;
-      var userId = _ref6.userId,
-        productId = _ref6.productId;
+    removeProductFromCart: function removeProductFromCart(_ref6, _ref7) {
+      var commit = _ref6.commit;
+      var userId = _ref7.userId,
+        productId = _ref7.productId;
       return _services_shop_services__WEBPACK_IMPORTED_MODULE_0__["default"].removeProductFromCart(userId, productId).then(function (response) {
         return Promise.resolve(response.data);
       }, function (error) {
@@ -19354,6 +19365,9 @@ var shopStore = {
   mutations: {
     setNewOrderFields: function setNewOrderFields(state, fields) {
       state.newOrderFields = fields;
+    },
+    setUserShippingInfo: function setUserShippingInfo(state, userShippingInfo) {
+      state.orderInfo.userShippingInfo = userShippingInfo;
     }
   },
   getters: {
@@ -19362,6 +19376,9 @@ var shopStore = {
     },
     getMyCartProducts: function getMyCartProducts(state) {
       return state.myCartProducts;
+    },
+    getUserShippingInfo: function getUserShippingInfo(state) {
+      return state.orderInfo.userShippingInfo;
     }
   }
 };
