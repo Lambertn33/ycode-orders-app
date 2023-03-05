@@ -3,7 +3,7 @@
     <h2 class="text-lg font-medium text-gray-900">Order summary</h2>
     <div class="mt-4 rounded-lg border border-gray-200 bg-white shadow-sm">
       <h3 class="sr-only">Items in your cart</h3>
-      <ul role="list" class="divide-y divide-gray-200 overflow-y-auto" v-if="myCartProducts.length">
+      <ul role="list" class="divide-y divide-gray-200 overflow-y-auto">
         <li class="flex py-6 px-4 sm:px-6" v-for="product in myCartProducts" :key="product[0].ID">
           <div class="flex-shrink-0">
             <img :src="product[0].Image" alt="T-Shirt in black." class="w-20 rounded-md">
@@ -37,10 +37,7 @@
           </div>
         </li>
       </ul>
-      <div class="p-16 flex items-center justify-center" v-else>
-        <h2 class="text-red-600 text-xl font-bold">No Products in Your Cart</h2>
-      </div>
-      <div v-if="myCartProducts.length">
+      <div>
         <dl class="space-y-6 border-t border-gray-200 py-6 px-4 sm:px-6">
           <div class="flex items-center justify-between">
             <dt class="text-sm">Subtotal</dt>

@@ -18794,7 +18794,6 @@ var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
   "class": "sr-only"
 }, "Items in your cart", -1 /* HOISTED */);
 var _hoisted_5 = {
-  key: 0,
   role: "list",
   "class": "divide-y divide-gray-200 overflow-y-auto"
 };
@@ -18829,21 +18828,9 @@ var _hoisted_16 = {
   "class": "mt-1 text-sm font-medium text-gray-900"
 };
 var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"ml-4\"><label for=\"quantity\" class=\"sr-only\">Quantity</label><select id=\"quantity\" name=\"quantity\" class=\"rounded-md border border-gray-300 text-left text-base font-medium text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm\"><option value=\"1\">1</option><option value=\"2\">2</option><option value=\"3\">3</option><option value=\"4\">4</option><option value=\"5\">5</option></select></div>", 1);
-var _hoisted_18 = {
-  key: 1,
-  "class": "p-16 flex items-center justify-center"
-};
-var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
-  "class": "text-red-600 text-xl font-bold"
-}, "No Products in Your Cart", -1 /* HOISTED */);
-var _hoisted_20 = [_hoisted_19];
-var _hoisted_21 = {
-  key: 2
-};
-var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<dl class=\"space-y-6 border-t border-gray-200 py-6 px-4 sm:px-6\"><div class=\"flex items-center justify-between\"><dt class=\"text-sm\">Subtotal</dt><dd class=\"text-sm font-medium text-gray-900\">$64.00</dd></div><div class=\"flex items-center justify-between\"><dt class=\"text-sm\">Shipping</dt><dd class=\"text-sm font-medium text-gray-900\">$5.00</dd></div><div class=\"flex items-center justify-between border-t border-gray-200 pt-6\"><dt class=\"text-base font-medium\">Total</dt><dd class=\"text-base font-medium text-gray-900\">$69.00</dd></div></dl><div class=\"border-t border-gray-200 py-6 px-4 sm:px-6\"><button type=\"submit\" class=\"w-full rounded-md border border-transparent bg-indigo-600 py-3 px-4 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50\">Submit order</button></div>", 2);
-var _hoisted_24 = [_hoisted_22];
+var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div><dl class=\"space-y-6 border-t border-gray-200 py-6 px-4 sm:px-6\"><div class=\"flex items-center justify-between\"><dt class=\"text-sm\">Subtotal</dt><dd class=\"text-sm font-medium text-gray-900\">$64.00</dd></div><div class=\"flex items-center justify-between\"><dt class=\"text-sm\">Shipping</dt><dd class=\"text-sm font-medium text-gray-900\">$5.00</dd></div><div class=\"flex items-center justify-between border-t border-gray-200 pt-6\"><dt class=\"text-base font-medium\">Total</dt><dd class=\"text-base font-medium text-gray-900\">$69.00</dd></div></dl><div class=\"border-t border-gray-200 py-6 px-4 sm:px-6\"><button type=\"submit\" class=\"w-full rounded-md border border-transparent bg-indigo-600 py-3 px-4 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50\">Submit order</button></div></div>", 1);
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_hoisted_4, $props.myCartProducts.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("ul", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.myCartProducts, function (product) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.myCartProducts, function (product) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       "class": "flex py-6 px-4 sm:px-6",
       key: product[0].ID
@@ -18857,7 +18844,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       },
       "class": "text-red-500 font-bold cursor-pointer"
     }, "Remove", 8 /* PROPS */, _hoisted_14)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_16, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(product[0].Price), 1 /* TEXT */), _hoisted_17])])]);
-  }), 128 /* KEYED_FRAGMENT */))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, _hoisted_20)), $props.myCartProducts.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_21, _hoisted_24)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]);
+  }), 128 /* KEYED_FRAGMENT */))]), _hoisted_18])]);
 }
 
 /***/ }),
