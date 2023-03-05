@@ -9,13 +9,14 @@
       <order-form 
         :newOrderFields="newOrderFields"
         :myCartProducts="myCartProducts"
-        :orderToSubmit="orderToSubmit"
         @validateOrInvalidateForm="validateOrInvalidateForm"
+        :isShippingInformationFilled="isShippingInformationFilled"
       />
 
       <my-cart 
         :myCartProducts="myCartProducts" 
         @removeProductFromCart="removeProductFromCart"
+        :isShippingInformationFilled="isShippingInformationFilled"
       />
     </form>
     <div class="p-16 flex items-center justify-center bg-gray-200 rounded-md" v-else>
@@ -37,6 +38,7 @@
         errorMessage: '',
         newOrderFields: [],
         myCartProducts: [],
+        isShippingInformationFilled: false,
       }
     },
 
@@ -98,7 +100,15 @@
           filteredProducts.push(actualProduct);
         }
         return filteredProducts;
-      },      
+      },  
+      validateOrInvalidateForm(userInfo) {
+        if (this.isShippingInformationFilled == false) {
+          this.isShippingInformationFilled = true;
+          this.$store.commit('setUserShippingInfo', userInfo);
+        } else {
+          this.isShippingInformationFilled = false;
+        }
+      },    
     },
     computed: {
       getNewOrderFields() {

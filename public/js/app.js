@@ -18234,7 +18234,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   emits: ['removeProductFromCart'],
   props: {
-    myCartProducts: Array
+    myCartProducts: Array,
+    isShippingInformationFilled: Boolean
   }
 });
 
@@ -18273,7 +18274,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       hasError: false,
       errorMessage: '',
       newOrderFields: [],
-      myCartProducts: []
+      myCartProducts: [],
+      isShippingInformationFilled: false
     };
   },
   methods: {
@@ -18398,6 +18400,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         _iterator2.f();
       }
       return filteredProducts;
+    },
+    validateOrInvalidateForm: function validateOrInvalidateForm(userInfo) {
+      if (this.isShippingInformationFilled == false) {
+        this.isShippingInformationFilled = true;
+        this.$store.commit('setUserShippingInfo', userInfo);
+      } else {
+        this.isShippingInformationFilled = false;
+      }
     }
   },
   computed: {
@@ -18434,22 +18444,18 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   },
   data: function data() {
     return {
-      orderToSubmit: {},
-      isShippingInformationFilled: false
+      orderToSubmit: {}
+      // isShippingInformationFilled: false
     };
   },
+
   props: {
-    newOrderFields: Array
+    newOrderFields: Array,
+    validateOrInvalidateForm: Function,
+    isShippingInformationFilled: Boolean
   },
+  emits: ['validateOrInvalidateForm'],
   methods: {
-    validateOrInvalidateForm: function validateOrInvalidateForm() {
-      if (this.isShippingInformationFilled == false) {
-        this.isShippingInformationFilled = true;
-        this.$store.commit('setUserShippingInfo', this.orderToSubmit.userInfo);
-      } else {
-        this.isShippingInformationFilled = false;
-      }
-    },
     changeValue: function changeValue(enteredValue, id) {
       for (var _i = 0, _Object$keys = Object.keys(this.orderToSubmit.userInfo); _i < _Object$keys.length; _i++) {
         var key = _Object$keys[_i];
@@ -18893,7 +18899,16 @@ var _hoisted_16 = {
   "class": "mt-1 text-sm font-medium text-gray-900"
 };
 var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"ml-4\"><label for=\"quantity\" class=\"sr-only\">Quantity</label><select id=\"quantity\" name=\"quantity\" class=\"rounded-md border border-gray-300 text-left text-base font-medium text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm\"><option value=\"1\">1</option><option value=\"2\">2</option><option value=\"3\">3</option><option value=\"4\">4</option><option value=\"5\">5</option></select></div>", 1);
-var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div><dl class=\"space-y-6 border-t border-gray-200 py-6 px-4 sm:px-6\"><div class=\"flex items-center justify-between\"><dt class=\"text-sm\">Subtotal</dt><dd class=\"text-sm font-medium text-gray-900\">$64.00</dd></div><div class=\"flex items-center justify-between\"><dt class=\"text-sm\">Shipping</dt><dd class=\"text-sm font-medium text-gray-900\">$5.00</dd></div><div class=\"flex items-center justify-between border-t border-gray-200 pt-6\"><dt class=\"text-base font-medium\">Total</dt><dd class=\"text-base font-medium text-gray-900\">$69.00</dd></div></dl><div class=\"border-t border-gray-200 py-6 px-4 sm:px-6\"><button type=\"submit\" class=\"w-full rounded-md border border-transparent bg-indigo-600 py-3 px-4 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50\">Submit order</button></div></div>", 1);
+var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<dl class=\"space-y-6 border-t border-gray-200 py-6 px-4 sm:px-6\"><div class=\"flex items-center justify-between\"><dt class=\"text-sm\">Subtotal</dt><dd class=\"text-sm font-medium text-gray-900\">$64.00</dd></div><div class=\"flex items-center justify-between\"><dt class=\"text-sm\">Shipping</dt><dd class=\"text-sm font-medium text-gray-900\">$5.00</dd></div><div class=\"flex items-center justify-between border-t border-gray-200 pt-6\"><dt class=\"text-base font-medium\">Total</dt><dd class=\"text-base font-medium text-gray-900\">$69.00</dd></div></dl>", 1);
+var _hoisted_19 = {
+  key: 0,
+  "class": "border-t border-gray-200 py-6 px-4 sm:px-6"
+};
+var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  type: "submit",
+  "class": "w-full rounded-md border border-transparent bg-indigo-600 py-3 px-4 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+}, "Submit order", -1 /* HOISTED */);
+var _hoisted_21 = [_hoisted_20];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.myCartProducts, function (product) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
@@ -18909,7 +18924,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       },
       "class": "text-red-500 font-bold cursor-pointer"
     }, "Remove", 8 /* PROPS */, _hoisted_14)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_16, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(product[0].Price), 1 /* TEXT */), _hoisted_17])])]);
-  }), 128 /* KEYED_FRAGMENT */))]), _hoisted_18])]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_hoisted_18, $props.isShippingInformationFilled ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, _hoisted_21)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
 }
 
 /***/ }),
@@ -18961,12 +18976,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_order_form, {
     newOrderFields: $data.newOrderFields,
     myCartProducts: $data.myCartProducts,
-    orderToSubmit: _ctx.orderToSubmit,
-    onValidateOrInvalidateForm: _ctx.validateOrInvalidateForm
-  }, null, 8 /* PROPS */, ["newOrderFields", "myCartProducts", "orderToSubmit", "onValidateOrInvalidateForm"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_my_cart, {
+    onValidateOrInvalidateForm: $options.validateOrInvalidateForm,
+    isShippingInformationFilled: $data.isShippingInformationFilled
+  }, null, 8 /* PROPS */, ["newOrderFields", "myCartProducts", "onValidateOrInvalidateForm", "isShippingInformationFilled"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_my_cart, {
     myCartProducts: $data.myCartProducts,
-    onRemoveProductFromCart: $options.removeProductFromCart
-  }, null, 8 /* PROPS */, ["myCartProducts", "onRemoveProductFromCart"])], 32 /* HYDRATE_EVENTS */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, _hoisted_6))]));
+    onRemoveProductFromCart: $options.removeProductFromCart,
+    isShippingInformationFilled: $data.isShippingInformationFilled
+  }, null, 8 /* PROPS */, ["myCartProducts", "onRemoveProductFromCart", "isShippingInformationFilled"])], 32 /* HYDRATE_EVENTS */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, _hoisted_6))]));
 }
 
 /***/ }),
@@ -18997,6 +19013,7 @@ var _hoisted_4 = {
   "class": "border-t border-gray-200 py-4 px-4 sm:px-6"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _this = this;
   var _component_the_input = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("the-input");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.newOrderFields, function (field) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_the_input, {
@@ -19005,11 +19022,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       label: field.name,
       orderToSubmit: $data.orderToSubmit,
       onChangeValue: $options.changeValue,
-      isShippingInformationFilled: $data.isShippingInformationFilled
+      isShippingInformationFilled: $props.isShippingInformationFilled
     }, null, 8 /* PROPS */, ["type", "label", "orderToSubmit", "onChangeValue", "isShippingInformationFilled"]);
   }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[0] || (_cache[0] = function () {
-      return $options.validateOrInvalidateForm && $options.validateOrInvalidateForm.apply($options, arguments);
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return _ctx.$emit('validateOrInvalidateForm', _this.orderToSubmit.userInfo);
     }),
     type: "button",
     "class": "w-full rounded-md border border-transparent bg-indigo-600 py-3 px-4 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"

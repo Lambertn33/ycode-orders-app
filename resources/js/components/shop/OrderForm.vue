@@ -15,7 +15,7 @@
         />  
       </div>
       <div class="border-t border-gray-200 py-4 px-4 sm:px-6">
-        <button @click="validateOrInvalidateForm" type="button" 
+        <button @click="$emit('validateOrInvalidateForm', this.orderToSubmit.userInfo)" type="button" 
         class="w-full rounded-md border border-transparent bg-indigo-600 py-3 px-4 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">
         {{ renderButtonLabel }}
       </button>
@@ -31,21 +31,16 @@
     data() {
       return {
         orderToSubmit: {},
-        isShippingInformationFilled: false
+        // isShippingInformationFilled: false
       }
     },
     props: {
       newOrderFields: Array,
+      validateOrInvalidateForm: Function,
+      isShippingInformationFilled: Boolean
     },
+    emits: ['validateOrInvalidateForm'],
     methods: {
-      validateOrInvalidateForm() {
-        if (this.isShippingInformationFilled == false) {
-          this.isShippingInformationFilled = true;
-          this.$store.commit('setUserShippingInfo', this.orderToSubmit.userInfo);
-        } else {
-          this.isShippingInformationFilled = false;
-        }
-      },
       changeValue(enteredValue, id) {
         for (const key of Object.keys(this.orderToSubmit.userInfo)) {
           if (key == id) {
