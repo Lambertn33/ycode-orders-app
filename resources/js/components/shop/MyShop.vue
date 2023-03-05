@@ -1,4 +1,4 @@
-<template>
+<template v-if="reRenderComponent">
   <div v-if="isFetching" class="w-full h-full">
     <the-spinner />
   </div>
@@ -9,6 +9,8 @@
       <order-form 
         :newOrderFields="newOrderFields"
         :myCartProducts="myCartProducts"
+        :orderToSubmit="orderToSubmit"
+        @validateOrInvalidateForm="validateOrInvalidateForm"
       />
 
       <my-cart 
@@ -35,8 +37,10 @@
         errorMessage: '',
         newOrderFields: [],
         myCartProducts: [],
+        reRenderComponent: true,
       }
     },
+
     methods: {
       async fetchNewOrderFieldsAndMyCart() {
         try {
@@ -45,9 +49,9 @@
           const fields = await this.$store.dispatch('fetchNewOrderFields');
           const { fields: fetchedFields } = await fields;
 
-          // avoid rendering inputs with reference types
+          // avoid rendering inputs with reference types and ID
           const filteredFields = fetchedFields.filter((field) => {
-            return field.type != "reference";
+            return field.type != "reference" && field.name != "ID";
           });
 
           // some fields have type of phone instead of tel and datetime instead of datetime-local
