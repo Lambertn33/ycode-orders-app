@@ -4,7 +4,8 @@
   </div>
   <div v-else>
     <h2 class="text-center font-semibold text-xl pb-8">Products List</h2>
-    <the-alert v-show="hasRequestFinished" :responseMessage="responseMessage"/>
+    <success-alert v-show="hasRequestFinished" :responseMessage="responseMessage"/>
+    <error-alert v-show="hasError" :errorMessage="errorMessage"/>
     <div class="gap-4 grid grid-cols-3">
       <product-item
         v-for="product in products"
@@ -24,9 +25,10 @@
     data() {
       return {
         hasRequestFinished: false,
+        hasError: false,
+        errorMessage: '',
         isDeleting: false,
         isFetching: false,
-        isModalVisible: false,
         isSaving: false,
         myCartProducts: [],
         products: [],
@@ -36,14 +38,20 @@
 
     methods: {
       async fetchAllProducts() {
-        this.isFetching = true;
-        const data = await this.$store.dispatch('fetchAllProducts');
-        const fetchedProducts = await data;
-        const userId = this.$store.getters.getUser;
-        const myCartProducts = await this.$store.dispatch('fetchMyCartProducts', [userId]);
-        this.products = fetchedProducts;
-        this.myCartProducts = myCartProducts;
-        this.isFetching = false;        
+        try {
+          this.isFetching = true;
+          const data = await this.$store.dispatch('fetchAllProducts');
+          const fetchedProducts = await data;
+          const userId = this.$store.getters.getUser;
+          const myCartProducts = await this.$store.dispatch('fetchMyCartProducts', [userId]);
+          this.products = fetchedProducts;
+          this.myCartProducts = myCartProducts;
+          this.isFetching = false;    
+        } catch (error) {
+          this.isFetching = false;
+          this.hasError = true;
+          this.errorMessage = error.message;
+        }    
       },
 
       async addProductToCart(productId) {

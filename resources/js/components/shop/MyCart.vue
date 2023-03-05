@@ -26,7 +26,11 @@
               <div class="ml-4">
                 <label for="quantity" class="sr-only">Quantity</label>
                 <select id="quantity" name="quantity" class="rounded-md border border-gray-300 text-left text-base font-medium text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
-                   <option value="1">0</option>
+                   <option value="1">1</option>
+                   <option value="2">2</option>
+                   <option value="3">3</option>
+                   <option value="4">4</option>
+                   <option value="5">5</option>
                 </select>
               </div>
             </div>

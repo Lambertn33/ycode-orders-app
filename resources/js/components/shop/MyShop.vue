@@ -3,10 +3,10 @@
     <the-spinner />
   </div>
   <div v-else>
+    <error-alert v-show="hasError" :errorMessage="errorMessage"/>
     <h2 class="sr-only">Checkout</h2>
-    <form class="lg:grid lg:grid-cols-2 lg:gap-x-12 xl:gap-x-16">
+    <form v-on:submit.prevent="submitOrder" v-if="myCartProducts.length" class="lg:grid lg:grid-cols-2 lg:gap-x-12 xl:gap-x-16">
       <order-form 
-        v-if="myCartProducts.length"
         :newOrderFields="newOrderFields"
         :myCartProducts="myCartProducts"
       />
@@ -16,6 +16,9 @@
         @removeProductFromCart="removeProductFromCart"
       />
     </form>
+    <div class="p-16 flex items-center justify-center bg-gray-200 rounded-md" v-else>
+      <h2 class="text-red-600 text-xl font-bold">Your cart is empty</h2>
+    </div>
   </div>
 </template>
 
@@ -28,35 +31,47 @@
     data() {
       return {
         isFetching: false,
+        hasError: false,
+        errorMessage: '',
         newOrderFields: [],
         myCartProducts: [],
       }
     },
     methods: {
       async fetchNewOrderFieldsAndMyCart() {
-        this.isFetching = true;
-        // fetch new order fields
-        const fields = await this.$store.dispatch('fetchNewOrderFields');
-        const { fields: fetchedFields } = await fields;
+        try {
+          this.isFetching = true;
+          // fetch new order fields
+          const fields = await this.$store.dispatch('fetchNewOrderFields');
+          const { fields: fetchedFields } = await fields;
 
-        // avoid rendering inputs with reference types
-        const filteredFields = fetchedFields.filter((field) => {
-          return field.type != "reference";
-        });
+          // avoid rendering inputs with reference types
+          const filteredFields = fetchedFields.filter((field) => {
+            return field.type != "reference";
+          });
 
-        // some fields have type of phone instead of tel and datetime instead of datetime-local
-        // we manually fix this
-        for (const field of filteredFields) {
-          if (field.type == "datetime") field.type = "datetime-local";
-          if (field.type == "phone") field.type = "tel";
-        }
+          // some fields have type of phone instead of tel and datetime instead of datetime-local
+          // we manually fix this
+          for (const field of filteredFields) {
+            if (field.type == "datetime") field.type = "datetime-local";
+            if (field.type == "phone") field.type = "tel";
+          }
 
-        // fetch my cart
-        const userId = this.$store.getters.getUser;
-        const myCartProducts = await this.$store.dispatch('fetchMyCartProducts', [userId]);
-        this.myCartProducts = this.displayProductsInCartBasedOnId(myCartProducts);
-        this.newOrderFields = filteredFields;
-        this.isFetching = false;        
+          // fetch my cart
+          const userId = this.$store.getters.getUser;
+          const myCartProducts = await this.$store.dispatch('fetchMyCartProducts', [userId]);
+          this.myCartProducts = this.displayProductsInCartBasedOnId(myCartProducts);
+          this.newOrderFields = filteredFields;
+          this.isFetching = false; 
+        } catch (error) {
+          this.isFetching = false;
+          this.hasError = true;
+          this.errorMessage = error.message;
+        }       
+      },
+
+      async submitOrder() {
+        console.log('order submitted');
       },
       
       async removeProductFromCart(productId) {
