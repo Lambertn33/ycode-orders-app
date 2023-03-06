@@ -1,22 +1,26 @@
 <template>
   <div class="ml-4">
     <label for="quantity" class="sr-only">Quantity</label>
-    <select id="quantity"
+    <select
+      @change="$emit('changeSelectedQuantity', $event.target.id, $event.target.value)"
+      :id="id"
       name="quantity"
       class="rounded-md border border-gray-300 text-left text-base font-medium text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
       v-bind="setSelectEnabledOrDisabled"  
     >
-      <option v-for="quantity in maxQuantityToSelect" :key="quantity" :value="i">{{ quantity }}</option>
+      <option v-for="quantity in maxQuantityToSelect" :key="quantity" :value="quantity">{{ quantity }}</option>
     </select>
   </div>
 </template>
 
 <script>
   export default {
+    emits: ['changeSelectedQuantity'],
     props: {
       label: String,
+      id: String,
       maxQuantityToSelect: Number,
-      isShippingInformationFilled: Boolean
+      isShippingInformationFilled: Boolean,
     },
     computed: {
       setSelectEnabledOrDisabled() {

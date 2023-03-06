@@ -51,8 +51,11 @@
           const { fields: fetchedFields } = await fields;
 
           // avoid rendering inputs with reference types and ID
+          // sub total, total and shipping aren't filled manually, no need to display
           const filteredFields = fetchedFields.filter((field) => {
-            return field.type != "reference" && field.name != "ID";
+            return field.type != "reference" && field.name != "ID"
+            && field.name != "Total" && field.name != "Subtotal"
+            && field.name != "Shipping";
           });
 
           // some fields have type of phone instead of tel and datetime instead of datetime-local

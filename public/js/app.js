@@ -18231,8 +18231,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  emits: ['changeSelectedQuantity'],
   props: {
     label: String,
+    id: String,
     maxQuantityToSelect: Number,
     isShippingInformationFilled: Boolean
   },
@@ -18260,6 +18262,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _reusable_form_TheSelect_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../reusable/form/TheSelect.vue */ "./resources/js/components/reusable/form/TheSelect.vue");
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -18268,6 +18273,14 @@ __webpack_require__.r(__webpack_exports__);
         label: 'Quantity',
         //the max quantity to select we set it to 7 but can be any number
         maxQuantityToSelect: 7
+        // the shipping fee is always 5
+      },
+
+      orderObject: {
+        orderedProducts: [],
+        shippingFee: 5,
+        grandSubTotal: 0,
+        grandTotal: 0
       }
     };
   },
@@ -18278,6 +18291,66 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     myCartProducts: Array,
     isShippingInformationFilled: Boolean
+  },
+  methods: {
+    changeSelectedQuantity: function changeSelectedQuantity(selectedProductId, selectedQuantity) {
+      var orderedProducts = this.orderObject.orderedProducts;
+      var selectedProductIndex = orderedProducts.findIndex(function (product) {
+        return product.id == selectedProductId;
+      });
+      var selectedProduct = orderedProducts[selectedProductIndex];
+      selectedProduct.quantity = parseInt(selectedQuantity);
+      selectedProduct.subTotal = parseInt(selectedQuantity) * selectedProduct.price;
+      this.calculateTotals();
+    },
+    calculateTotals: function calculateTotals() {
+      var orderedProducts = this.orderObject.orderedProducts;
+      var subTotal = 0;
+      var _iterator = _createForOfIteratorHelper(orderedProducts),
+        _step;
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var product = _step.value;
+          subTotal += product.subTotal;
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+      this.orderObject.grandSubTotal = subTotal;
+      this.orderObject.grandTotal = subTotal + this.orderObject.shippingFee;
+    }
+  },
+  computed: {
+    formatAmount: function formatAmount() {
+      return function (amount) {
+        return amount.toFixed(2);
+      };
+    }
+  },
+  mounted: function mounted() {
+    var _iterator2 = _createForOfIteratorHelper(this.myCartProducts),
+      _step2;
+    try {
+      for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+        var product = _step2.value;
+        var productInCart = {};
+        productInCart.id = product[0].ID;
+        productInCart.price = parseInt(product[0].Price);
+        productInCart.quantity = 1;
+        productInCart.name = product[0].Name;
+        productInCart.image = product[0].Image;
+        productInCart.color = product[0].Color;
+        productInCart.subTotal = productInCart.quantity * productInCart.price;
+        this.orderObject.orderedProducts.push(productInCart);
+        this.calculateTotals();
+      }
+    } catch (err) {
+      _iterator2.e(err);
+    } finally {
+      _iterator2.f();
+    }
   }
 });
 
@@ -18341,8 +18414,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _yield$fields = _context.sent;
               fetchedFields = _yield$fields.fields;
               // avoid rendering inputs with reference types and ID
+              // sub total, total and shipping aren't filled manually, no need to display
               filteredFields = fetchedFields.filter(function (field) {
-                return field.type != "reference" && field.name != "ID";
+                return field.type != "reference" && field.name != "ID" && field.name != "Total" && field.name != "Subtotal" && field.name != "Shipping";
               }); // some fields have type of phone instead of tel and datetime instead of datetime-local
               // we manually fix this
               _iterator = _createForOfIteratorHelper(filteredFields);
@@ -18899,18 +18973,22 @@ var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
   "for": "quantity",
   "class": "sr-only"
 }, "Quantity", -1 /* HOISTED */);
-var _hoisted_3 = ["value"];
+var _hoisted_3 = ["id"];
+var _hoisted_4 = ["value"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({
-    id: "quantity",
+    onChange: _cache[0] || (_cache[0] = function ($event) {
+      return _ctx.$emit('changeSelectedQuantity', $event.target.id, $event.target.value);
+    }),
+    id: $props.id,
     name: "quantity",
     "class": "rounded-md border border-gray-300 text-left text-base font-medium text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
   }, $options.setSelectEnabledOrDisabled), [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.maxQuantityToSelect, function (quantity) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: quantity,
-      value: _ctx.i
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(quantity), 9 /* TEXT, PROPS */, _hoisted_3);
-  }), 128 /* KEYED_FRAGMENT */))], 16 /* FULL_PROPS */)]);
+      value: quantity
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(quantity), 9 /* TEXT, PROPS */, _hoisted_4);
+  }), 128 /* KEYED_FRAGMENT */))], 16 /* FULL_PROPS */, _hoisted_3)]);
 }
 
 /***/ }),
@@ -18974,37 +19052,77 @@ var _hoisted_15 = {
 var _hoisted_16 = {
   "class": "mt-1 text-sm font-medium text-gray-900"
 };
-var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<dl class=\"space-y-6 border-t border-gray-200 py-6 px-4 sm:px-6\"><div class=\"flex items-center justify-between\"><dt class=\"text-sm\">Subtotal</dt><dd class=\"text-sm font-medium text-gray-900\">$64.00</dd></div><div class=\"flex items-center justify-between\"><dt class=\"text-sm\">Shipping</dt><dd class=\"text-sm font-medium text-gray-900\">$5.00</dd></div><div class=\"flex items-center justify-between border-t border-gray-200 pt-6\"><dt class=\"text-base font-medium\">Total</dt><dd class=\"text-base font-medium text-gray-900\">$69.00</dd></div></dl>", 1);
-var _hoisted_18 = {
+var _hoisted_17 = {
+  "class": "flex flex-1 items-end justify-between pt-2"
+};
+var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  "class": "mt-1 text-sm font-extrabold text-gray-900"
+}, "Subtotal", -1 /* HOISTED */);
+var _hoisted_19 = {
+  "class": "mt-1 text-sm font-extrabold text-gray-900"
+};
+var _hoisted_20 = {
+  "class": "space-y-6 border-t border-gray-200 py-6 px-4 sm:px-6"
+};
+var _hoisted_21 = {
+  "class": "flex items-center justify-between"
+};
+var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("dt", {
+  "class": "text-sm font-extrabold"
+}, "Grand subtotal", -1 /* HOISTED */);
+var _hoisted_23 = {
+  "class": "text-sm font-extrabold text-gray-900"
+};
+var _hoisted_24 = {
+  "class": "flex items-center justify-between"
+};
+var _hoisted_25 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("dt", {
+  "class": "text-sm font-extrabold"
+}, "Shipping", -1 /* HOISTED */);
+var _hoisted_26 = {
+  "class": "text-sm font-extrabold text-gray-900"
+};
+var _hoisted_27 = {
+  "class": "flex items-center justify-between border-t border-gray-200 pt-6"
+};
+var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("dt", {
+  "class": "text-base font-extrabold"
+}, "Grand total", -1 /* HOISTED */);
+var _hoisted_29 = {
+  "class": "text-base font-extrabold text-gray-900"
+};
+var _hoisted_30 = {
   key: 0,
   "class": "py-6 px-4 sm:px-6"
 };
-var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+var _hoisted_31 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
   type: "submit",
   "class": "w-full rounded-md border border-transparent bg-indigo-600 py-3 px-4 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
 }, "Submit order", -1 /* HOISTED */);
-var _hoisted_20 = [_hoisted_19];
+var _hoisted_32 = [_hoisted_31];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_the_select = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("the-select");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.myCartProducts, function (product) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.orderObject.orderedProducts, function (product) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       "class": "flex py-6 px-4 sm:px-6",
-      key: product[0].ID
+      key: product.id
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-      src: product[0].Image,
+      src: product.image,
       alt: "T-Shirt in black.",
       "class": "w-20 rounded-md"
-    }, null, 8 /* PROPS */, _hoisted_7)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(product[0].Name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(product[0].Color), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, null, 8 /* PROPS */, _hoisted_7)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(product.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(product.color), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       onClick: function onClick($event) {
-        return _ctx.$emit('removeProductFromCart', product[0].ID);
+        return _ctx.$emit('removeProductFromCart', product.id);
       },
       "class": "text-red-500 font-bold cursor-pointer"
-    }, "Remove", 8 /* PROPS */, _hoisted_14)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_16, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(product[0].Price), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_the_select, {
+    }, "Remove", 8 /* PROPS */, _hoisted_14)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_16, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(product.price), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_the_select, {
       label: $data.inputSelectComponents.label,
       maxQuantityToSelect: $data.inputSelectComponents.maxQuantityToSelect,
-      isShippingInformationFilled: $props.isShippingInformationFilled
-    }, null, 8 /* PROPS */, ["label", "maxQuantityToSelect", "isShippingInformationFilled"])])])]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_hoisted_17, $props.isShippingInformationFilled ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, _hoisted_20)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
+      isShippingInformationFilled: $props.isShippingInformationFilled,
+      id: product.id,
+      onChangeSelectedQuantity: $options.changeSelectedQuantity
+    }, null, 8 /* PROPS */, ["label", "maxQuantityToSelect", "isShippingInformationFilled", "id", "onChangeSelectedQuantity"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [_hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_19, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatAmount(product.subTotal)), 1 /* TEXT */)])])]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("dl", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("dd", _hoisted_23, "$ " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatAmount($data.orderObject.grandSubTotal)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("dd", _hoisted_26, "$ " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatAmount($data.orderObject.shippingFee)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("dd", _hoisted_29, "$ " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatAmount($data.orderObject.grandTotal)), 1 /* TEXT */)])]), $props.isShippingInformationFilled ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_30, _hoisted_32)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
 }
 
 /***/ }),
@@ -19086,16 +19204,19 @@ var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 var _hoisted_2 = {
   "class": "mt-4 rounded-lg border border-gray-200 bg-white shadow-sm p-6"
 };
-var _hoisted_3 = {
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  "class": "text-red-600 text-sm font-bold"
+}, " Note: after filling the shipping information, please validate the form in Order to fill out the cart ", -1 /* HOISTED */);
+var _hoisted_4 = {
   "class": "mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4"
 };
-var _hoisted_4 = {
-  "class": "border-t border-gray-200 py-4 px-4 sm:px-6"
+var _hoisted_5 = {
+  "class": "py-4 px-4 sm:px-6"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _this = this;
   var _component_the_input = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("the-input");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.newOrderFields, function (field) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.newOrderFields, function (field) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_the_input, {
       key: field.id,
       type: field.type,
@@ -19104,7 +19225,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onChangeValue: $options.changeValue,
       isShippingInformationFilled: $props.isShippingInformationFilled
     }, null, 8 /* PROPS */, ["type", "label", "orderToSubmit", "onChangeValue", "isShippingInformationFilled"]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[0] || (_cache[0] = function ($event) {
       return _ctx.$emit('validateOrInvalidateForm', _this.orderToSubmit.userInfo);
     }),
@@ -19410,7 +19531,8 @@ var initialState = {
   newOrderFields: [],
   myCartProducts: [],
   orderInfo: {
-    userShippingInfo: {}
+    userShippingInfo: {},
+    orderedProducts: []
   }
 };
 var shopStore = {

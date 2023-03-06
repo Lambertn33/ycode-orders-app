@@ -4,7 +4,8 @@ let initialState = {
   newOrderFields: [],
   myCartProducts: [],
   orderInfo: {
-    userShippingInfo: {}
+    userShippingInfo: {},
+    orderedProducts: [],
   },
 }
 

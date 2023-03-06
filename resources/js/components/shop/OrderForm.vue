@@ -2,7 +2,9 @@
   <div>
     <h2 class="text-lg font-medium text-gray-900">Shipping information</h2>
     <div class="mt-4 rounded-lg border border-gray-200 bg-white shadow-sm p-6">
-
+      <span class="text-red-600 text-sm font-bold">
+        Note: after filling the shipping information, please validate the form in Order to fill out the cart
+      </span>
       <div class="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
         <the-input
           v-for="field in newOrderFields"
@@ -14,7 +16,7 @@
           :isShippingInformationFilled="isShippingInformationFilled"
         />  
       </div>
-      <div class="border-t border-gray-200 py-4 px-4 sm:px-6">
+      <div class="py-4 px-4 sm:px-6">
         <button @click="$emit('validateOrInvalidateForm', this.orderToSubmit.userInfo)" type="button" 
         class="w-full rounded-md border border-transparent bg-indigo-600 py-3 px-4 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">
         {{ renderButtonLabel }}
