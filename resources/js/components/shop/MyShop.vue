@@ -97,13 +97,13 @@
       },
       
       async removeProductFromCart(productId) {
+        this.isRemovingProduct = true;
         const userId = this.$store.getters.getUser;
         await this.$store.dispatch('removeProductFromCart', {
           'userId': userId, 'productId': productId
         });
-        setTimeout(function(){
-          location.reload();
-        }, 2000);
+        this.isRemovingProduct = false;
+        location.reload();
       },
 
       // since in the DB we only save the product ID, we first find the product corresponding to each fetched product

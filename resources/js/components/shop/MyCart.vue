@@ -17,8 +17,10 @@
                 </h4>
                 <p class="mt-1 text-sm text-gray-500">{{ product.color }}</p>
               </div>
-              <div>
-                <span @click="$emit('removeProductFromCart', product.id)" class="text-red-500 font-bold cursor-pointer">Remove</span>
+              <div v-if="isShippingInformationFilled">
+                <span @click="$emit('removeProductFromCart', product.id)" class="text-red-500 font-bold cursor-pointer">
+                  <remove-icon />
+                </span>
               </div>
             </div>
             <div class="flex flex-1 items-end justify-between pt-2">
@@ -69,6 +71,7 @@
 
 <script>
   import TheSelect from '../reusable/form/TheSelect.vue';
+  import RemoveIcon from 'vue-material-design-icons/Close.vue';
 
   export default {
     data() {
@@ -87,11 +90,11 @@
         }
       }
     },
-    components: { TheSelect },
+    components: { TheSelect, RemoveIcon },
     emits: ['removeProductFromCart', 'submitOrder'],
     props: {
       myCartProducts: Array,
-      isShippingInformationFilled: Boolean
+      isShippingInformationFilled: Boolean,
     },
 
     methods: {
@@ -117,6 +120,9 @@
     computed: {
       formatAmount() {
         return amount =>  amount.toFixed(2);
+      },
+      formatRemoveButtonLabel() {
+        return this.isRemovingProduct ? 'Please wait...' : 'Remove';
       }
     },
 
