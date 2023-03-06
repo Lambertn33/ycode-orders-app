@@ -6,7 +6,9 @@ import router from './router'
 
 import store from './store'
 
-import TheAlert from './components/reusable/TheAlert.vue'
+import SuccessAlert from './components/reusable/SuccessAlert.vue'
+
+import ErrorAlert from './components/reusable/ErrorAlert.vue'
 
 import TheNavbar from './components/navbar/TheNavbar.vue'
 
@@ -22,7 +24,9 @@ app.use(router)
 
 app.component('the-navbar', TheNavbar)
 
-app.component('the-alert', TheAlert)
+app.component('success-alert', SuccessAlert)
+
+app.component('error-alert', ErrorAlert)
 
 app.component('the-spinner', TheSpinner)
 

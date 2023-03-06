@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Collections\CollectionsController;
 use App\Http\Controllers\Shop\ShopController;
+use App\Http\Services\CollectionsServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,7 @@ Route::controller(ShopController::class)->prefix('shop')->group(function() {
     Route::get('/', 'getMyCart');
     Route::post('/', 'addProductToCart');
     Route::delete('/{productId}', 'removeProductFromCart');
+    Route::post('submitOrder', 'submitOrder');
   });
 });
 

@@ -21,6 +21,10 @@ class ShopServices {
   removeProductFromCart(userId, productId) {
     return axios.delete(`${endpointUrl}/shop/cart/${userId}/${productId}`);
   }
+
+  submitOrder(userId, orderObject) {
+    return axios.post(`${endpointUrl}/shop/cart/${userId}/submitOrder`, orderObject)
+  }
 }
 
 export default new ShopServices();

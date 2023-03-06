@@ -2,7 +2,10 @@ import ShopServices from "../services/shop.services";
 
 let initialState = {
   newOrderFields: [],
-  myCartProducts: []
+  myCartProducts: [],
+  orderInfo: {
+    userShippingInfo: {},
+  },
 }
 
 export const shopStore = {
@@ -33,6 +36,10 @@ export const shopStore = {
       )
     },
 
+    setUserInfo({ commit }, userShippingInfo) {
+      commit('setUserShippingInfo', userShippingInfo);
+    },
+
     addProductToCart({ commit }, {userId, productId}) {
       return ShopServices.addProductToCart(userId, productId).then(
         response => {
@@ -43,6 +50,7 @@ export const shopStore = {
         }
       );
     },
+    
     removeProductFromCart({ commit }, {userId, productId}) {
       return ShopServices.removeProductFromCart(userId, productId).then(
         response => {
@@ -53,13 +61,27 @@ export const shopStore = {
         }
       );
     },
+
+    submitOrder({ commit }, {userId, orderObject}) {
+      return ShopServices.submitOrder(userId, orderObject).then(
+        response => {
+          return Promise.resolve(response.data);
+        },
+        error => {
+          return Promise.reject(error);
+        }
+      );
+    }
   },
 
 
   mutations: {
     setNewOrderFields(state, fields) {
       state.newOrderFields = fields;
-    }
+    },
+    setUserShippingInfo(state, userShippingInfo) {
+      state.orderInfo.userShippingInfo = userShippingInfo;
+    },
   },
 
   getters: {
@@ -68,6 +90,10 @@ export const shopStore = {
     },
     getMyCartProducts(state) {
       return state.myCartProducts;
+    },
+    getUserShippingInfo(state) {
+      return state.orderInfo.userShippingInfo;
     }
+
   }
 }
