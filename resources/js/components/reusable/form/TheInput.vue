@@ -19,7 +19,6 @@
       type: String,
       label: String,
       value: String,
-      orderToSubmit: Object,
       isShippingInformationFilled: Boolean
     },
     computed: {

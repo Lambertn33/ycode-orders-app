@@ -23,16 +23,11 @@
             </div>
             <div class="flex flex-1 items-end justify-between pt-2">
               <p class="mt-1 text-sm font-medium text-gray-900">${{ product[0].Price }}</p>
-              <div class="ml-4">
-                <label for="quantity" class="sr-only">Quantity</label>
-                <select id="quantity" name="quantity" class="rounded-md border border-gray-300 text-left text-base font-medium text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
-                   <option value="1">1</option>
-                   <option value="2">2</option>
-                   <option value="3">3</option>
-                   <option value="4">4</option>
-                   <option value="5">5</option>
-                </select>
-              </div>
+              <the-select
+                :label="inputSelectComponents.label"
+                :maxQuantityToSelect="inputSelectComponents.maxQuantityToSelect"
+                :isShippingInformationFilled="isShippingInformationFilled"
+              />
             </div>
           </div>
         </li>
@@ -53,7 +48,7 @@
           </div>
         </dl>
 
-        <div class="border-t border-gray-200 py-6 px-4 sm:px-6" v-if="isShippingInformationFilled">
+        <div class="py-6 px-4 sm:px-6" v-if="isShippingInformationFilled">
           <button type="submit" class="w-full rounded-md border border-transparent bg-indigo-600 py-3 px-4 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">Submit order</button>
         </div>
       </div>
@@ -62,7 +57,19 @@
 </template>
 
 <script>
+  import TheSelect from '../reusable/form/TheSelect.vue';
+
   export default {
+    data() {
+      return {
+        inputSelectComponents: {
+          label: 'Quantity',
+          //the max quantity to select we set it to 7 but can be any number
+          maxQuantityToSelect: 7
+        }
+      }
+    },
+    components: { TheSelect },
     emits: ['removeProductFromCart'],
     props: {
       myCartProducts: Array,
