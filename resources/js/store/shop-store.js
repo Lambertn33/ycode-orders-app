@@ -5,7 +5,6 @@ let initialState = {
   myCartProducts: [],
   orderInfo: {
     userShippingInfo: {},
-    orderedProducts: [],
   },
 }
 
@@ -70,7 +69,7 @@ export const shopStore = {
     },
     setUserShippingInfo(state, userShippingInfo) {
       state.orderInfo.userShippingInfo = userShippingInfo;
-    }
+    },
   },
 
   getters: {

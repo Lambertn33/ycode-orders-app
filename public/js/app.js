@@ -18287,7 +18287,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   components: {
     TheSelect: _reusable_form_TheSelect_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  emits: ['removeProductFromCart'],
+  emits: ['removeProductFromCart', 'submitOrder'],
   props: {
     myCartProducts: Array,
     isShippingInformationFilled: Boolean
@@ -18456,13 +18456,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee, null, [[0, 21]]);
       }))();
     },
-    submitOrder: function submitOrder() {
+    submitOrder: function submitOrder(cartOject) {
+      var _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        var userInfo, orderObject;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              console.log('order submitted');
-            case 1:
+              //combine the user shipping information and cart information together and send to backend
+              userInfo = _this2.$store.getters.getUserShippingInfo;
+              orderObject = {
+                userInfo: userInfo,
+                cartOject: cartOject
+              };
+              console.log(orderObject);
+            case 3:
             case "end":
               return _context2.stop();
           }
@@ -18470,15 +18478,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     removeProductFromCart: function removeProductFromCart(productId) {
-      var _this2 = this;
+      var _this3 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         var userId;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
             case 0:
-              userId = _this2.$store.getters.getUser;
+              userId = _this3.$store.getters.getUser;
               _context3.next = 3;
-              return _this2.$store.dispatch('removeProductFromCart', {
+              return _this3.$store.dispatch('removeProductFromCart', {
                 'userId': userId,
                 'productId': productId
               });
@@ -19095,12 +19103,8 @@ var _hoisted_30 = {
   key: 0,
   "class": "py-6 px-4 sm:px-6"
 };
-var _hoisted_31 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-  type: "submit",
-  "class": "w-full rounded-md border border-transparent bg-indigo-600 py-3 px-4 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
-}, "Submit order", -1 /* HOISTED */);
-var _hoisted_32 = [_hoisted_31];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _this = this;
   var _component_the_select = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("the-select");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.orderObject.orderedProducts, function (product) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
@@ -19122,7 +19126,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       id: product.id,
       onChangeSelectedQuantity: $options.changeSelectedQuantity
     }, null, 8 /* PROPS */, ["label", "maxQuantityToSelect", "isShippingInformationFilled", "id", "onChangeSelectedQuantity"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [_hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_19, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatAmount(product.subTotal)), 1 /* TEXT */)])])]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("dl", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("dd", _hoisted_23, "$ " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatAmount($data.orderObject.grandSubTotal)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("dd", _hoisted_26, "$ " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatAmount($data.orderObject.shippingFee)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("dd", _hoisted_29, "$ " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatAmount($data.orderObject.grandTotal)), 1 /* TEXT */)])]), $props.isShippingInformationFilled ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_30, _hoisted_32)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("dl", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("dd", _hoisted_23, "$ " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatAmount($data.orderObject.grandSubTotal)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("dd", _hoisted_26, "$ " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatAmount($data.orderObject.shippingFee)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("dd", _hoisted_29, "$ " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatAmount($data.orderObject.grandTotal)), 1 /* TEXT */)])]), $props.isShippingInformationFilled ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return _ctx.$emit('submitOrder', _this.orderObject);
+    }),
+    "class": "w-full rounded-md border border-transparent bg-indigo-600 py-3 px-4 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+  }, " Submit order ")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
 }
 
 /***/ }),
@@ -19179,8 +19189,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 8 /* PROPS */, ["newOrderFields", "myCartProducts", "onValidateOrInvalidateForm", "isShippingInformationFilled"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_my_cart, {
     myCartProducts: $data.myCartProducts,
     onRemoveProductFromCart: $options.removeProductFromCart,
-    isShippingInformationFilled: $data.isShippingInformationFilled
-  }, null, 8 /* PROPS */, ["myCartProducts", "onRemoveProductFromCart", "isShippingInformationFilled"])], 32 /* HYDRATE_EVENTS */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, _hoisted_6))]));
+    isShippingInformationFilled: $data.isShippingInformationFilled,
+    onSubmitOrder: $options.submitOrder
+  }, null, 8 /* PROPS */, ["myCartProducts", "onRemoveProductFromCart", "isShippingInformationFilled", "onSubmitOrder"])], 32 /* HYDRATE_EVENTS */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, _hoisted_6))]));
 }
 
 /***/ }),
@@ -19531,8 +19542,7 @@ var initialState = {
   newOrderFields: [],
   myCartProducts: [],
   orderInfo: {
-    userShippingInfo: {},
-    orderedProducts: []
+    userShippingInfo: {}
   }
 };
 var shopStore = {

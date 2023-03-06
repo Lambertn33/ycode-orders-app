@@ -17,6 +17,7 @@
         :myCartProducts="myCartProducts" 
         @removeProductFromCart="removeProductFromCart"
         :isShippingInformationFilled="isShippingInformationFilled"
+        @submitOrder="submitOrder"
       />
     </form>
     <div class="p-16 flex items-center justify-center bg-gray-200 rounded-md" v-else>
@@ -78,8 +79,14 @@
         }       
       },
 
-      async submitOrder() {
-        console.log('order submitted');
+      async submitOrder(cartOject) {
+        //combine the user shipping information and cart information together and send to backend
+        const userInfo = this.$store.getters.getUserShippingInfo;
+        const orderObject = {
+          userInfo,
+          cartOject
+        };
+        console.log(orderObject);
       },
       
       async removeProductFromCart(productId) {
