@@ -4,8 +4,6 @@
   </div>
   <div v-else>
     <h2 class="text-center font-semibold text-xl pb-8">Products List</h2>
-    <success-alert v-show="hasRequestFinished" :responseMessage="responseMessage"/>
-    <error-alert v-show="hasError" :errorMessage="errorMessage"/>
     <div class="gap-4 grid grid-cols-3">
       <product-item
         v-for="product in products"
@@ -63,9 +61,11 @@
         this.responseMessage = response.message;
         this.isSaving = false;
         this.hasRequestFinished = true;
-        setTimeout(function(){
-          location.reload();
-        }, 2000);
+        this.$swal({title: 'Success', text: response.message, type: 'success'}).then(okay => {
+          if( okay) {
+            location.reload();
+          }
+        });
       },
     },
 

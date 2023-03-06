@@ -3,7 +3,6 @@
     <the-spinner />
   </div>
   <div v-else>
-    <error-alert v-show="hasError" :errorMessage="errorMessage"/>
     <h2 class="sr-only">Checkout</h2>
     <form v-on:submit.prevent="submitOrder" v-if="myCartProducts.length" class="lg:grid lg:grid-cols-2 lg:gap-x-12 xl:gap-x-16">
       <order-form 
@@ -18,6 +17,7 @@
         @removeProductFromCart="removeProductFromCart"
         :isShippingInformationFilled="isShippingInformationFilled"
         @submitOrder="submitOrder"
+        :isSubmittingOrder="isSubmittingOrder"
       />
     </form>
     <div class="p-16 flex items-center justify-center bg-gray-200 rounded-md" v-else>
@@ -77,6 +77,11 @@
         } catch (error) {
           this.isFetching = false;
           this.hasError = true;
+          this.$swal({title: 'Error',text: 'an error occured..please try again', type: 'error'}).then(okay => {
+          if( okay) {
+            location.reload();
+          }
+        });
           this.errorMessage = error.message;
         }       
       },
@@ -90,8 +95,13 @@
           userInfo,
           cartObject
         };
-        await this.$store.dispatch('submitOrder', {
+        const response = await this.$store.dispatch('submitOrder', {
           'userId': userId, 'orderObject': orderObject
+        });
+        this.$swal({title: 'Success',text: response.message, type: 'success'}).then(okay => {
+          if( okay) {
+            window.location.href ="/";
+          }
         });
         this.isSubmittingOrder = false;
       },
@@ -99,11 +109,15 @@
       async removeProductFromCart(productId) {
         this.isRemovingProduct = true;
         const userId = this.$store.getters.getUser;
-        await this.$store.dispatch('removeProductFromCart', {
+        const response = await this.$store.dispatch('removeProductFromCart', {
           'userId': userId, 'productId': productId
         });
+        this.$swal({title: 'Success',text: response.message, type: 'success'}).then(okay => {
+          if( okay) {
+            location.reload();
+          }
+        });
         this.isRemovingProduct = false;
-        location.reload();
       },
 
       // since in the DB we only save the product ID, we first find the product corresponding to each fetched product
