@@ -50,6 +50,7 @@ export const shopStore = {
         }
       );
     },
+    
     removeProductFromCart({ commit }, {userId, productId}) {
       return ShopServices.removeProductFromCart(userId, productId).then(
         response => {
@@ -60,6 +61,17 @@ export const shopStore = {
         }
       );
     },
+
+    submitOrder({ commit }, {userId, orderObject}) {
+      return ShopServices.submitOrder(userId, orderObject).then(
+        response => {
+          return Promise.resolve(response.data);
+        },
+        error => {
+          return Promise.reject(error);
+        }
+      );
+    }
   },
 
 

@@ -18387,6 +18387,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       isFetching: false,
       hasError: false,
+      isSubmittingOrder: false,
       errorMessage: '',
       newOrderFields: [],
       myCartProducts: [],
@@ -18414,9 +18415,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _yield$fields = _context.sent;
               fetchedFields = _yield$fields.fields;
               // avoid rendering inputs with reference types and ID
-              // sub total, total and shipping aren't filled manually, no need to display
+              // Order Name, Order slug, created date, update date, sub total, total and shipping aren't filled manually, no need to display
               filteredFields = fetchedFields.filter(function (field) {
-                return field.type != "reference" && field.name != "ID" && field.name != "Total" && field.name != "Subtotal" && field.name != "Shipping";
+                return field.type != "reference" && field.name != "ID" && field.name != "Total" && field.name != "Subtotal" && field.name != "Shipping" && field.name != "Created date" && field.name != "Updated date" && field.name != "Slug" && field.name != "Name";
               }); // some fields have type of phone instead of tel and datetime instead of datetime-local
               // we manually fix this
               _iterator = _createForOfIteratorHelper(filteredFields);
@@ -18456,21 +18457,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee, null, [[0, 21]]);
       }))();
     },
-    submitOrder: function submitOrder(cartOject) {
+    submitOrder: function submitOrder(cartObject) {
       var _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var userInfo, orderObject;
+        var userInfo, userId, orderObject;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
               //combine the user shipping information and cart information together and send to backend
+              _this2.isSubmittingOrder = true;
               userInfo = _this2.$store.getters.getUserShippingInfo;
+              userId = _this2.$store.getters.getUser;
               orderObject = {
                 userInfo: userInfo,
-                cartOject: cartOject
+                cartObject: cartObject
               };
-              console.log(orderObject);
-            case 3:
+              _context2.next = 6;
+              return _this2.$store.dispatch('submitOrder', {
+                'userId': userId,
+                'orderObject': orderObject
+              });
+            case 6:
+              _this2.isSubmittingOrder = false;
+            case 7:
             case "end":
               return _context2.stop();
           }
@@ -19440,6 +19449,11 @@ var ShopServices = /*#__PURE__*/function () {
     value: function removeProductFromCart(userId, productId) {
       return axios__WEBPACK_IMPORTED_MODULE_1__["default"]["delete"]("".concat(endpointUrl, "/shop/cart/").concat(userId, "/").concat(productId));
     }
+  }, {
+    key: "submitOrder",
+    value: function submitOrder(userId, orderObject) {
+      return axios__WEBPACK_IMPORTED_MODULE_1__["default"].post("".concat(endpointUrl, "/shop/cart/").concat(userId, "/submitOrder"), orderObject);
+    }
   }]);
   return ShopServices;
 }();
@@ -19585,6 +19599,16 @@ var shopStore = {
       var userId = _ref7.userId,
         productId = _ref7.productId;
       return _services_shop_services__WEBPACK_IMPORTED_MODULE_0__["default"].removeProductFromCart(userId, productId).then(function (response) {
+        return Promise.resolve(response.data);
+      }, function (error) {
+        return Promise.reject(error);
+      });
+    },
+    submitOrder: function submitOrder(_ref8, _ref9) {
+      var commit = _ref8.commit;
+      var userId = _ref9.userId,
+        orderObject = _ref9.orderObject;
+      return _services_shop_services__WEBPACK_IMPORTED_MODULE_0__["default"].submitOrder(userId, orderObject).then(function (response) {
         return Promise.resolve(response.data);
       }, function (error) {
         return Promise.reject(error);

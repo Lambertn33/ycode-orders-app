@@ -36,6 +36,7 @@
       return {
         isFetching: false,
         hasError: false,
+        isSubmittingOrder: false,
         errorMessage: '',
         newOrderFields: [],
         myCartProducts: [],
@@ -52,11 +53,12 @@
           const { fields: fetchedFields } = await fields;
 
           // avoid rendering inputs with reference types and ID
-          // sub total, total and shipping aren't filled manually, no need to display
+          // Order Name, Order slug, created date, update date, sub total, total and shipping aren't filled manually, no need to display
           const filteredFields = fetchedFields.filter((field) => {
             return field.type != "reference" && field.name != "ID"
             && field.name != "Total" && field.name != "Subtotal"
-            && field.name != "Shipping";
+            && field.name != "Shipping" && field.name !="Created date" 
+            && field.name !="Updated date" && field.name !="Slug" && field.name !="Name";
           });
 
           // some fields have type of phone instead of tel and datetime instead of datetime-local
@@ -79,14 +81,19 @@
         }       
       },
 
-      async submitOrder(cartOject) {
+      async submitOrder(cartObject) {
         //combine the user shipping information and cart information together and send to backend
+        this.isSubmittingOrder = true;
         const userInfo = this.$store.getters.getUserShippingInfo;
+        const userId = this.$store.getters.getUser;
         const orderObject = {
           userInfo,
-          cartOject
+          cartObject
         };
-        console.log(orderObject);
+        await this.$store.dispatch('submitOrder', {
+          'userId': userId, 'orderObject': orderObject
+        });
+        this.isSubmittingOrder = false;
       },
       
       async removeProductFromCart(productId) {
