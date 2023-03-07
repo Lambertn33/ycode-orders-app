@@ -13,7 +13,9 @@ after cloning the project run:
 3. php artisan key:generate
 4. php artisan migrate
 5. npm install
-6. php artisan serve
-7. npm run dev
+6. provide the YCODE_API_URL and YCODE_API_TOKEN values in .env 
+  ( YCODE_API_URL = https://app.ycode.com/api/v1, YCODE_API_TOKEN="your API Key of the cloned project" ) 
+7. php artisan serve
+8. npm run dev
 
 The Project is ready
