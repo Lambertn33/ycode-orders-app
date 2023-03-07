@@ -18322,6 +18322,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         var product = _step2.value;
         var productInCart = {};
         productInCart.id = product[0].ID;
+        productInCart.ycodeId = product[0]._ycode_id;
         productInCart.price = parseInt(product[0].Price);
         productInCart.quantity = 1;
         productInCart.name = product[0].Name;
