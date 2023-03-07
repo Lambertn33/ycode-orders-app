@@ -17,8 +17,10 @@
                 </h4>
                 <p class="mt-1 text-sm text-gray-500">{{ product.color }}</p>
               </div>
-              <div>
-                <span @click="$emit('removeProductFromCart', product.id)" class="text-red-500 font-bold cursor-pointer">Remove</span>
+              <div v-if="isShippingInformationFilled">
+                <span @click="$emit('removeProductFromCart', product.id)" class="text-red-500 font-bold cursor-pointer">
+                  <remove-icon />
+                </span>
               </div>
             </div>
             <div class="flex flex-1 items-end justify-between pt-2">
@@ -57,9 +59,10 @@
         <div class="py-6 px-4 sm:px-6" v-if="isShippingInformationFilled">
           <button
             type="button"
+            v-bind="formatSubmitOrderButtonStatus"
             @click="$emit('submitOrder', this.orderObject)"
-            class="w-full rounded-md border border-transparent bg-indigo-600 py-3 px-4 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">
-            Submit order
+            :class="formatSubmitOrderButtonClasses">
+              {{ formatSubmitOrderButtonLabel }}
           </button>
         </div>
       </div>
@@ -69,6 +72,7 @@
 
 <script>
   import TheSelect from '../reusable/form/TheSelect.vue';
+  import RemoveIcon from 'vue-material-design-icons/Close.vue';
 
   export default {
     data() {
@@ -87,11 +91,12 @@
         }
       }
     },
-    components: { TheSelect },
+    components: { TheSelect, RemoveIcon },
     emits: ['removeProductFromCart', 'submitOrder'],
     props: {
       myCartProducts: Array,
-      isShippingInformationFilled: Boolean
+      isShippingInformationFilled: Boolean,
+      isSubmittingOrder: Boolean
     },
 
     methods: {
@@ -117,6 +122,17 @@
     computed: {
       formatAmount() {
         return amount =>  amount.toFixed(2);
+      },
+      formatSubmitOrderButtonLabel() {
+        return this.isSubmittingOrder ? 'Please wait...' : 'Submit Order';
+      },
+      formatSubmitOrderButtonStatus () {
+        return this.isSubmittingOrder ? { disabled: true } : ''
+      },
+      formatSubmitOrderButtonClasses() {
+        let btnClasses = "w-full rounded-md border border-transparent py-3 px-4 text-base font-medium text-white shadow-sm  focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50";
+        btnClasses += !this.isSubmittingOrder ? " bg-indigo-600 hover:bg-indigo-700" : " bg-indigo-300 hover:bg-indigo-400"
+        return btnClasses
       }
     },
 
