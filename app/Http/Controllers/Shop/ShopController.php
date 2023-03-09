@@ -94,9 +94,7 @@ class ShopController extends Controller
           'Quantity' => $product['quantity']
         ];
       }
-      foreach($newOrderItems as $item) {
-        (new ShopServices)->saveNewOrderItem($item);
-      }
+      (new ShopServices)->saveNewOrderItem($newOrderItems);
       // after the order is saved, remove user cart
       (new ShopServices)->emptyUserCart($currentUserInSession);
       $response['message'] = 'Order Placed successfully';
