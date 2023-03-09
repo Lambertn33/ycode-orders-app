@@ -4,6 +4,7 @@
   use App\Models\Cart;
   use Illuminate\Http\Request;
   use Illuminate\Support\Str;
+  use Illuminate\Http\Client\Pool;
 
   Class ShopServices {
     private $endpointUrl;
@@ -67,13 +68,17 @@
          return Http::withHeaders($this->headers)->post($url, $newOrder);
        }
    
-       public function saveNewOrderItem($newOrderItem)
+       public function saveNewOrderItem($newOrderItems)
        {
-         $orderItemsCollectionName = "Order items";
-         $collectionId = (new CollectionsServices)->getCollectionId($orderItemsCollectionName);
-         $url = $this->endpointUrl.'/'.$collectionId. '/items';
-         Http::withHeaders($this->headers)->post($url, $newOrderItem);
-       }
+          $orderItemsCollectionName = "Order items";
+          $collectionId = (new CollectionsServices)->getCollectionId($orderItemsCollectionName);
+          $url = $this->endpointUrl.'/'.$collectionId. '/items';
+          Http::pool(function(Pool $pool) use($url, $newOrderItems) {
+            foreach ($newOrderItems as $item) {
+              $pool->withHeaders($this->headers)->post($url, $item);
+            }
+          });
+        }
   }
 
 ?>
